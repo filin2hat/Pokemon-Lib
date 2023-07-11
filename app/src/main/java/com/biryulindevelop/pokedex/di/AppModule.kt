@@ -1,7 +1,7 @@
 package com.biryulindevelop.pokedex.di
 
 import com.biryulindevelop.pokedex.data.remote.PokemonApi
-import com.biryulindevelop.pokedex.repository.PokemonRepository
+import com.biryulindevelop.pokedex.data.repository.PokemonRepository
 import com.biryulindevelop.pokedex.util.Constants
 import dagger.Module
 import dagger.Provides

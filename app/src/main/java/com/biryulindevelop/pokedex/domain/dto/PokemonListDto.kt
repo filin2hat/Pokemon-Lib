@@ -1,7 +1,7 @@
-package com.biryulindevelop.pokedex.data.remote.responses
+package com.biryulindevelop.pokedex.domain.dto
 
 
-data class PokemonListModel(
+data class PokemonListDto(
     val count: Int = 0,
     val next: String = "",
     val previous: Any = Any(),

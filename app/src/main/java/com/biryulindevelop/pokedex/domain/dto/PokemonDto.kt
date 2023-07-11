@@ -1,9 +1,9 @@
-package com.biryulindevelop.pokedex.data.remote.responses
+package com.biryulindevelop.pokedex.domain.dto
 
 
 import com.google.gson.annotations.SerializedName
 
-data class PokemonModel(
+data class PokemonDto(
     val abilities: List<Ability> = listOf(),
     @SerializedName("base_experience")
     val baseExperience: Int = 0,
