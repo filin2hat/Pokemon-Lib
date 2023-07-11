@@ -1,4 +1,4 @@
-package com.biryulindevelop.pockedex.ui.theme
+package com.biryulindevelop.pokedex.ui.theme
 
 import android.app.Activity
 import android.os.Build
@@ -36,7 +36,7 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun PockedexTheme(
+fun PokedexTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit

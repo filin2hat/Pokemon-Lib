@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace 'com.biryulindevelop.pockedex'
+    namespace 'com.biryulindevelop.pokedex'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.biryulindevelop.pockedex"
+        applicationId "com.biryulindevelop.pokedex"
         minSdk 26
         targetSdk 33
         versionCode 1
@@ -90,7 +90,7 @@ dependencies {
 
     // Coil
     implementation "io.coil-kt:coil:2.2.2"
-    implementation "com.google.accompanist:accompanist-coil:0.7.0"
+    implementation 'com.google.accompanist:accompanist-coil:0.15.0'
 
     //Dagger - Hilt
     implementation "com.google.dagger:hilt-android:2.46.1"

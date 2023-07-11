@@ -1,4 +1,4 @@
-package com.biryulindevelop.pockedex.ui.theme
+package com.biryulindevelop.pokedex.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
