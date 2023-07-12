@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Pokedex</string>
     <string name="noname">Noname</string>
-    <string name="search">Search...</string>
+    <string name="search">Search…</string>
     <string name="retry">Retry</string>
+    <string name="pokemon_image">Pokemon Image</string>
+    <string name="button_back">Button Back</string>
 </resources>
