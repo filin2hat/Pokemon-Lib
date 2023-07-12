@@ -9,18 +9,19 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -45,7 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.biryulindevelop.pokedex.R
 import com.biryulindevelop.pokedex.domain.model.PokemonListEntry
@@ -132,7 +133,9 @@ fun PokemonList(
     val loadError by remember { viewModel.loadError }
     val isLoading by remember { viewModel.isLoading }
 
-    LazyColumn(contentPadding = PaddingValues(16.dp)) {
+    LazyColumn(
+        contentPadding = PaddingValues(10.dp)
+    ) {
         val itemCount = if (pokemonList.size % 2 == 0) {
             pokemonList.size / 2
         } else {
@@ -182,33 +185,34 @@ fun PokemonEntry(
             }
     ) {
         Column {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(entry.imageUrl)
-                    .target {
-                        viewModel.calcDominantColor(it) { color ->
-                            dominantColor = color
-                        }
-                    }
-                    .crossfade(true)
-                    .build(),
+            val painter = rememberAsyncImagePainter(
+                ImageRequest.Builder(LocalContext.current)
+                    .data(data = entry.imageUrl)
+                    .apply(block = fun ImageRequest.Builder.() {
+                        listener(
+                            onSuccess = { _, result ->
+                                viewModel.calcDominantColor(result.drawable) { color ->
+                                    dominantColor = color
+                                }
+                            }
+                        )
+                    }).build()
+            )
+            Image(
+                painter = painter,
                 contentDescription = entry.pokemonName,
                 modifier = Modifier
-                    .size(120.dp)
+                    .size(135.dp)
                     .align(CenterHorizontally)
             )
-            if (dominantColor == defaultDominantColor) {
-                CircularProgressIndicator(
-                    color = MaterialTheme.colorScheme.primary,
-                    strokeWidth = 2.dp
-                )
-            }
             Text(
                 text = entry.pokemonName,
                 fontFamily = RobotoCondensed,
+                color = MaterialTheme.colorScheme.primary,
                 fontSize = 20.sp,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxSize()
             )
         }
     }
@@ -227,7 +231,7 @@ fun PokemonListRow(
                 navController = navController,
                 modifier = Modifier.weight(1f)
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.width(10.dp))
             if (entries.size >= rowIndex * 2 + 2) {
                 PokemonEntry(
                     entry = entries[rowIndex * 2 + 1],
@@ -238,7 +242,7 @@ fun PokemonListRow(
                 Spacer(modifier = Modifier.weight(1f))
             }
         }
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(10.dp))
     }
 
 }
