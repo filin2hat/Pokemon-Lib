@@ -1,4 +1,4 @@
-package com.biryulindevelop.pokedex.presentation
+package com.biryulindevelop.pokedex.presentation.screens.list
 
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable

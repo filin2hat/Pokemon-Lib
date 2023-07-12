@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.biryulindevelop.pokedex.R
+import com.biryulindevelop.pokedex.presentation.screens.list.PokemonListScreen
 import com.biryulindevelop.pokedex.ui.theme.PokedexTheme
 import dagger.hilt.android.AndroidEntryPoint
 

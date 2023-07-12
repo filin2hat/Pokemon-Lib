@@ -1,4 +1,4 @@
-package com.biryulindevelop.pokedex.presentation
+package com.biryulindevelop.pokedex.presentation.screens.list
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
