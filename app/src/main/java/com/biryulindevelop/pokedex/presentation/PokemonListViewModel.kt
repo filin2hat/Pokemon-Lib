@@ -9,12 +9,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.palette.graphics.Palette
 import com.biryulindevelop.pokedex.data.repository.PokemonRepository
-import com.biryulindevelop.pokedex.domain.model.PokemonListEntry
+import com.biryulindevelop.pokedex.domain.model.PokedexListEntry
 import com.biryulindevelop.pokedex.util.Constants.PAGE_SIZE
 import com.biryulindevelop.pokedex.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,12 +23,12 @@ class PokemonListViewModel @Inject constructor(
 
     private var currentPage = 0
 
-    var pokemonList = mutableStateOf<List<PokemonListEntry>>(listOf())
+    var pokemonList = mutableStateOf<List<PokedexListEntry>>(listOf())
     var loadError = mutableStateOf("")
     var isLoading = mutableStateOf(false)
     var endReached = mutableStateOf(false)
 
-    init{
+    init {
         loadPokemonPaged()
     }
 
@@ -37,35 +36,48 @@ class PokemonListViewModel @Inject constructor(
     fun loadPokemonPaged() {
         viewModelScope.launch {
             isLoading.value = true
-            when (val result = repository.getPokemonList(PAGE_SIZE, currentPage * PAGE_SIZE)) {
+            val result = repository.getPokemonList(PAGE_SIZE, currentPage * PAGE_SIZE)
+            when (result) {
                 is Resource.Success -> {
                     endReached.value = currentPage * PAGE_SIZE >= result.data!!.count
-                    val pokemonEntries = result.data.results.mapIndexed { _, entry ->
-                        val number = if (entry.url.endsWith("/")) {
-                            entry.url.dropLast(1).takeLastWhile { it.isDigit() }
-                        } else {
-                            entry.url.takeLastWhile { it.isDigit() }
+                    val pokemonEntries = result.data.results.mapNotNull { entry ->
+                        try {
+                            val number = entry.url.getNumberFromUrl()
+                            val imageUrl = entry.url.getImageUrlFromNumber(number)
+                            PokedexListEntry(
+                                entry.name.replaceFirstChar { it.uppercase() },
+                                imageUrl,
+                                number
+                            )
+                        } catch (e: Exception) {
+                            null
                         }
-                        val url =
-                            "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${number}.png"
-                        PokemonListEntry(entry.name.replaceFirstChar {
-                            if (it.isLowerCase()) it.titlecase(
-                                Locale.ROOT
-                            ) else it.toString()
-                        }, url, number.toInt())
                     }
                     currentPage++
                     loadError.value = ""
                     isLoading.value = false
-                    pokemonList.value = pokemonEntries
+                    pokemonList.value += pokemonEntries
                 }
 
                 is Resource.Error -> {
-                    loadError.value += result.message!!
+                    loadError.value = result.message!!
                     isLoading.value = false
                 }
             }
         }
+    }
+
+    private fun String.getNumberFromUrl(): Int {
+        val numberString = if (endsWith("/")) {
+            dropLast(1).takeLastWhile { it.isDigit() }
+        } else {
+            takeLastWhile { it.isDigit() }
+        }
+        return numberString.toInt()
+    }
+
+    private fun String.getImageUrlFromNumber(number: Int): String {
+        return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$number.png"
     }
 
     fun calcDominantColor(drawable: Drawable, onFinish: (Color) -> Unit) {

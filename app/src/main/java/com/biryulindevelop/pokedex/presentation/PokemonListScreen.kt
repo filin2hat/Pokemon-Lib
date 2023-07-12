@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,8 +19,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material.Button
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -49,7 +50,7 @@ import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.biryulindevelop.pokedex.R
-import com.biryulindevelop.pokedex.domain.model.PokemonListEntry
+import com.biryulindevelop.pokedex.domain.model.PokedexListEntry
 import com.biryulindevelop.pokedex.ui.theme.RobotoCondensed
 
 @Composable
@@ -73,10 +74,9 @@ fun PokemonListScreen(
                 hint = stringResource(R.string.search),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
+                    .padding(12.dp),
                 onSearch = { }
             )
-            Spacer(modifier = Modifier.height(16.dp))
             PokemonList(navController = navController)
         }
     }
@@ -148,13 +148,24 @@ fun PokemonList(
             PokemonListRow(rowIndex = it, entries = pokemonList, navController = navController)
         }
     }
-
-
+    Box(
+        contentAlignment = Center,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        if (isLoading) {
+            CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+        }
+        if (loadError.isNotEmpty()) {
+            RetryLoading(error = loadError) {
+                viewModel.loadPokemonPaged()
+            }
+        }
+    }
 }
 
 @Composable
-fun PokemonEntry(
-    entry: PokemonListEntry,
+fun PokedexEntry(
+    entry: PokedexListEntry,
     navController: NavController,
     modifier: Modifier = Modifier,
     viewModel: PokemonListViewModel = hiltViewModel()
@@ -221,19 +232,19 @@ fun PokemonEntry(
 @Composable
 fun PokemonListRow(
     rowIndex: Int,
-    entries: List<PokemonListEntry>,
+    entries: List<PokedexListEntry>,
     navController: NavController
 ) {
     Column {
         Row {
-            PokemonEntry(
+            PokedexEntry(
                 entry = entries[rowIndex * 2],
                 navController = navController,
                 modifier = Modifier.weight(1f)
             )
             Spacer(modifier = Modifier.width(10.dp))
             if (entries.size >= rowIndex * 2 + 2) {
-                PokemonEntry(
+                PokedexEntry(
                     entry = entries[rowIndex * 2 + 1],
                     navController = navController,
                     modifier = Modifier.weight(1f)
@@ -244,5 +255,27 @@ fun PokemonListRow(
         }
         Spacer(modifier = Modifier.height(10.dp))
     }
+}
 
+@Composable
+fun RetryLoading(
+    error: String,
+    onRetry: () -> Unit
+) {
+    Column {
+        Text(
+            text = error,
+            color = Color.Red, fontSize = 18.sp,
+            textAlign = TextAlign.Center
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Button(
+            onClick = { onRetry() },
+            modifier = Modifier.align(CenterHorizontally)
+        ) {
+            Text(
+                text = stringResource(R.string.retry)
+            )
+        }
+    }
 }
