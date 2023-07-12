@@ -55,7 +55,8 @@ import com.biryulindevelop.pokedex.ui.theme.RobotoCondensed
 
 @Composable
 fun PokemonListScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: PokemonListViewModel = hiltViewModel()
 ) {
     Surface(
         color = MaterialTheme.colorScheme.background,
@@ -75,7 +76,9 @@ fun PokemonListScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(12.dp),
-                onSearch = { }
+                onSearch = {
+                    viewModel.searchPokemon(it)
+                }
             )
             PokemonList(navController = navController)
         }
@@ -132,6 +135,8 @@ fun PokemonList(
     val endReached by remember { viewModel.endReached }
     val loadError by remember { viewModel.loadError }
     val isLoading by remember { viewModel.isLoading }
+    val isSearching by remember { viewModel.isSearching }
+
 
     LazyColumn(
         contentPadding = PaddingValues(10.dp)
@@ -142,7 +147,7 @@ fun PokemonList(
             pokemonList.size / 2 + 1
         }
         items(itemCount) {
-            if (it >= itemCount - 1 && !endReached) {
+            if (it >= itemCount - 1 && !endReached && !isLoading && !isSearching) {
                 viewModel.loadPokemonPaged()
             }
             PokemonListRow(rowIndex = it, entries = pokemonList, navController = navController)
