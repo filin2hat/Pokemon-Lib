@@ -1,4 +1,4 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.Pokedex" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.PokemonLib" parent="android:Theme.Material.Light.NoActionBar" />
 </resources>
