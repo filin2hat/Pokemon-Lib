@@ -63,7 +63,7 @@ fun parseStatColor(stat: PokemonDto.Stat): Color {
     }
 }
 
-fun parseStatToColor(stat: PokemonDto.Stat): String {
+fun parseStatToAbbr(stat: PokemonDto.Stat): String {
     return when (stat.stat.name.lowercase()) {
         "hp" -> "HP"
         "attack" -> "Atk"
