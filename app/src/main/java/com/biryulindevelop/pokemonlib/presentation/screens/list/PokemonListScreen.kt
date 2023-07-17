@@ -51,7 +51,7 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.biryulindevelop.pokemonlib.R
 import com.biryulindevelop.pokemonlib.domain.model.PokemonLibListEntry
-import com.biryulindevelop.pokemonlib.ui.theme.RobotoCondensed
+import com.biryulindevelop.pokemonlib.ui.theme.PoketMonk
 
 @Composable
 fun PokemonListScreen(
@@ -223,9 +223,9 @@ fun PokemonLibEntry(
             )
             Text(
                 text = entry.pokemonName,
-                fontFamily = RobotoCondensed,
+                fontFamily = PoketMonk,
                 color = MaterialTheme.colorScheme.primary,
-                fontSize = 20.sp,
+                fontSize = 24.sp,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxSize()

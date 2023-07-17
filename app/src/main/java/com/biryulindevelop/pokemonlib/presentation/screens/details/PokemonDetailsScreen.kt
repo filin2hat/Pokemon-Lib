@@ -35,6 +35,7 @@ import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -54,6 +55,7 @@ import coil.compose.AsyncImage
 import com.biryulindevelop.pokemonlib.R
 import com.biryulindevelop.pokemonlib.domain.dto.PokemonDto
 import com.biryulindevelop.pokemonlib.util.Resource
+import com.biryulindevelop.pokemonlib.util.changeTypeEngToRus
 import com.biryulindevelop.pokemonlib.util.parseStatColor
 import com.biryulindevelop.pokemonlib.util.parseStatToAbbr
 import com.biryulindevelop.pokemonlib.util.parseTypeToColor
@@ -126,6 +128,15 @@ fun PokemonDetailsScreen(
                             .offset(y = topPadding)
                     )
                 }
+            }
+            if (pokemonInfo is Resource.Loading) {
+                CircularProgressIndicator(
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier
+                        .size(pokemonImageSize)
+                        .offset(y = topPadding)
+                )
+
             }
         }
     }
@@ -200,7 +211,7 @@ fun PokemonDetailSelection(
 ) {
     val scrollState = rememberScrollState()
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = CenterHorizontally,
         modifier = modifier
             .fillMaxSize()
             .offset(y = 100.dp)
@@ -235,6 +246,11 @@ fun PokemonTypeSection(types: List<PokemonDto.Type>) {
             .padding(16.dp)
     ) {
         for (type in types) {
+            val charType: String = if (Locale.getDefault().language == "ru") {
+                changeTypeEngToRus(type)
+            } else {
+                type.type.name
+            }
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
@@ -244,8 +260,9 @@ fun PokemonTypeSection(types: List<PokemonDto.Type>) {
                     .background(parseTypeToColor(type))
                     .height(35.dp)
             ) {
+
                 Text(
-                    text = type.type.name.replaceFirstChar {
+                    text = charType.replaceFirstChar {
                         if (it.isLowerCase()) it.titlecase(
                             Locale.ROOT
                         ) else it.toString()
@@ -302,7 +319,7 @@ fun PokemonDetailDataItem(
     modifier: Modifier = Modifier
 ) {
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = CenterHorizontally,
         verticalArrangement = Arrangement.Center,
         modifier = modifier
     ) {
@@ -388,13 +405,16 @@ fun PokemonBaseStats(
     val maxBaseStat = remember {
         pokemonInfo.stats.maxOf { it.baseStat }
     }
+    Spacer(modifier = Modifier.height(8.dp))
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
         Text(
-            text = "Base stats:",
-            fontSize = 20.sp,
-            color = MaterialTheme.colorScheme.onSurface
+            text = stringResource(R.string.base_stats),
+            fontSize = 18.sp,
+            color = MaterialTheme.colorScheme.onSurface,
+            modifier = Modifier
+                .align(CenterHorizontally)
         )
         Spacer(modifier = Modifier.height(4.dp))
         for (i in pokemonInfo.stats.indices) {

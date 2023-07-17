@@ -50,6 +50,29 @@ fun parseTypeToColor(type: PokemonDto.Type): Color {
         else -> Color.Black
     }
 }
+fun changeTypeEngToRus(type: PokemonDto.Type): String {
+    return when (type.type.name.lowercase()) {
+        "normal" -> "Обычный"
+        "fire" -> "Огненный"
+        "water" -> "Водяной"
+        "grass" -> "Растение"
+        "electric" -> "Электрический"
+        "ice" -> "Ледяной"
+        "fighting" -> "Боец"
+        "poison" -> "Ядовитый"
+        "ground" -> "Земля"
+        "flying" -> "Летающий"
+        "psychic" -> "Психо"
+        "bug" -> "Жук"
+        "rock" -> "Каменный"
+        "ghost" -> "Призрак"
+        "dragon" -> "Дракон"
+        "dark" -> "Тьма"
+        "steel" -> "Стальной"
+        "fairy" -> "Фея"
+        else -> "Не известный"
+    }
+}
 
 fun parseStatColor(stat: PokemonDto.Stat): Color {
     return when (stat.stat.name.lowercase()) {
