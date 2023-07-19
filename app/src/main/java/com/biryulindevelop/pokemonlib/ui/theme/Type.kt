@@ -8,25 +8,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.biryulindevelop.pokemonlib.R
 
-val Roboto = FontFamily(
-    Font(R.font.roboto_light, FontWeight.Light),
-    Font(R.font.roboto_regular, FontWeight.Normal),
-    Font(R.font.roboto_medium, FontWeight.Medium),
-    Font(R.font.roboto_bold, FontWeight.Bold),
-)
-
-val RobotoCondensed = FontFamily(
-    Font(R.font.roboto_condensed_light, FontWeight.Light),
-    Font(R.font.roboto_condensed_regular, FontWeight.Normal),
-)
 
 val PoketMonk = FontFamily(
     Font(R.font.pocket_monk, FontWeight.Normal),
 )
 
+val PokemonHollow = FontFamily(
+    Font(R.font.pokemon_hollow, FontWeight.Normal),
+)
+
 val Typography = Typography(
     bodyLarge = TextStyle(
-        fontFamily = Roboto,
+        fontFamily = PoketMonk,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         lineHeight = 24.sp,

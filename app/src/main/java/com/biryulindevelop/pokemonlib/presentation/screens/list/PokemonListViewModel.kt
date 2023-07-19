@@ -70,8 +70,7 @@ class PokemonListViewModel @Inject constructor(
     fun loadPokemonPaged() {
         viewModelScope.launch {
             isLoading.value = true
-            val result = repository.getPokemonList(PAGE_SIZE, currentPage * PAGE_SIZE)
-            when (result) {
+            when (val result = repository.getPokemonList(PAGE_SIZE, currentPage * PAGE_SIZE)) {
                 is Resource.Success -> {
                     endReached.value = currentPage * PAGE_SIZE >= result.data!!.count
                     val pokemonEntries = result.data.results.mapNotNull { entry ->
@@ -115,7 +114,8 @@ class PokemonListViewModel @Inject constructor(
     }
 
     private fun String.getImageUrlFromNumber(number: Int): String {
-        return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$number.png"
+        return "https://raw.githubusercontent" +
+                ".com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$number.png"
     }
 
     fun calcDominantColor(drawable: Drawable, onFinish: (Color) -> Unit) {

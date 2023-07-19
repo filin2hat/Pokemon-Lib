@@ -39,9 +39,9 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -51,7 +51,7 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.biryulindevelop.pokemonlib.R
 import com.biryulindevelop.pokemonlib.domain.model.PokemonLibListEntry
-import com.biryulindevelop.pokemonlib.ui.theme.PoketMonk
+import com.biryulindevelop.pokemonlib.ui.theme.PokemonHollow
 
 @Composable
 fun PokemonListScreen(
@@ -63,13 +63,15 @@ fun PokemonListScreen(
         modifier = Modifier.fillMaxSize()
     ) {
         Column {
-            Spacer(modifier = Modifier.height(20.dp))
-            Image(
-                painter = painterResource(id = R.drawable.ic_international_pok_mon_logo),
-                contentDescription = "Pokemon Logo",
+            Text(
+                text = "Pokemon Lib",
+                fontSize = 48.sp,
+                textAlign = TextAlign.Center,
+                fontFamily = PokemonHollow,
+                color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .align(CenterHorizontally)
+                    .padding(top = 18.dp)
             )
             SearchBar(
                 hint = stringResource(R.string.search),
@@ -223,9 +225,10 @@ fun PokemonLibEntry(
             )
             Text(
                 text = entry.pokemonName,
-                fontFamily = PoketMonk,
+                fontFamily = PokemonHollow,
+                fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary,
-                fontSize = 24.sp,
+                fontSize = 20.sp,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxSize()

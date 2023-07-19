@@ -54,6 +54,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.biryulindevelop.pokemonlib.R
 import com.biryulindevelop.pokemonlib.domain.dto.PokemonDto
+import com.biryulindevelop.pokemonlib.ui.theme.PokemonHollow
 import com.biryulindevelop.pokemonlib.util.Resource
 import com.biryulindevelop.pokemonlib.util.changeTypeEngToRus
 import com.biryulindevelop.pokemonlib.util.parseStatColor
@@ -68,7 +69,7 @@ fun PokemonDetailsScreen(
     pokemonName: String,
     navController: NavController,
     topPadding: Dp = 20.dp,
-    pokemonImageSize: Dp = 200.dp,
+    pokemonImageSize: Dp = 250.dp,
     viewModel: PokemonDetailsViewModel = hiltViewModel()
 ) {
     val pokemonInfo = produceState<Resource<PokemonDto>>(initialValue = Resource.Loading()) {
@@ -78,14 +79,16 @@ fun PokemonDetailsScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(dominantColor)
-            .padding(bottom = 16.dp)
+            .padding(bottom = 10.dp)
     ) {
         PokemonDetailTopSection(
+
             navController = navController,
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(0.2f)
-                .align(Alignment.TopCenter)
+                .align(Alignment.TopCenter),
+            pokemonInfo = pokemonInfo
         )
 
         PokemonDetailStateWrapper(
@@ -93,7 +96,7 @@ fun PokemonDetailsScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(
-                    top = topPadding + pokemonImageSize / 2f,
+                    top = topPadding + pokemonImageSize / 1.7f,
                     start = 16.dp,
                     end = 16.dp,
                     bottom = 16.dp
@@ -101,7 +104,6 @@ fun PokemonDetailsScreen(
                 .shadow(10.dp, RoundedCornerShape(10.dp))
                 .clip(RoundedCornerShape(10.dp))
                 .background(MaterialTheme.colorScheme.surface)
-                .padding(16.dp)
                 .align(Alignment.BottomCenter),
             loadingModifier = Modifier
                 .size(100.dp)
@@ -125,7 +127,7 @@ fun PokemonDetailsScreen(
                         contentDescription = pokemonInfo.data?.name,
                         modifier = Modifier
                             .size(pokemonImageSize)
-                            .offset(y = topPadding)
+                            .offset(y = topPadding - 10.dp)
                     )
                 }
             }
@@ -136,7 +138,6 @@ fun PokemonDetailsScreen(
                         .size(pokemonImageSize)
                         .offset(y = topPadding)
                 )
-
             }
         }
     }
@@ -144,10 +145,11 @@ fun PokemonDetailsScreen(
 
 @Composable
 fun PokemonDetailTopSection(
+    pokemonInfo: Resource<PokemonDto>,
     navController: NavController,
     modifier: Modifier
 ) {
-    Box(
+    Row(
         modifier = Modifier
             .fillMaxWidth()
             .background(
@@ -158,17 +160,32 @@ fun PokemonDetailTopSection(
                     )
                 )
             ),
-        contentAlignment = Alignment.TopStart
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Icon(
             imageVector = Icons.Default.ArrowBack,
             contentDescription = stringResource(R.string.button_back),
             tint = Color.White,
             modifier = Modifier
-                .size(36.dp)
-                .offset(x = 16.dp, y = 16.dp)
+                .size(40.dp)
+                .offset(x = 16.dp, y = 28.dp)
                 .clickable { navController.popBackStack() }
         )
+        Row(
+            modifier = Modifier
+                .padding(28.dp)
+        ) {
+            Text(
+                text = "#",
+                fontSize = 42.sp,
+                color = Color.White
+            )
+            Text(
+                text = pokemonInfo.data?.id?.toString() ?: "",
+                fontSize = 48.sp,
+                color = Color.White
+            )
+        }
     }
 }
 
@@ -218,14 +235,12 @@ fun PokemonDetailSelection(
             .verticalScroll(scrollState)
     ) {
         Text(
-            text = "#${pokemonInfo.id} ${
-                pokemonInfo.name.replaceFirstChar {
-                    if (it.isLowerCase()) it.titlecase(Locale.ROOT)
-                    else it.toString()
-                }
-            }",
+            text = pokemonInfo.name.replaceFirstChar {
+                if (it.isLowerCase()) it.titlecase(Locale.ROOT)
+                else it.toString()
+            },
             fontWeight = FontWeight.Bold,
-            fontSize = 30.sp,
+            fontSize = 36.sp,
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.onSurface
         )
@@ -343,7 +358,7 @@ fun PokemonStat(
     statMaxValue: Int,
     statColor: Color,
     height: Dp = 28.dp,
-    animDuration: Int = 1000,
+    animDuration: Int = 1500,
     animDelay: Int = 0
 ) {
     var animationPlayed by remember {
@@ -366,6 +381,7 @@ fun PokemonStat(
         modifier = Modifier
             .fillMaxWidth()
             .height(height)
+            .padding(horizontal = 8.dp)
             .clip(CircleShape)
             .background(
                 if (isSystemInDarkTheme()) {
@@ -387,10 +403,12 @@ fun PokemonStat(
         ) {
             Text(
                 text = statName,
+                fontFamily = PokemonHollow,
                 fontWeight = FontWeight.Bold
             )
             Text(
                 text = (curPercent.value * statMaxValue).toInt().toString(),
+                fontFamily = PokemonHollow,
                 fontWeight = FontWeight.Bold
             )
         }
@@ -424,7 +442,8 @@ fun PokemonBaseStats(
                 statValue = stat.baseStat,
                 statMaxValue = maxBaseStat,
                 statColor = parseStatColor(stat),
-                animDelay = i * animDelayPerItem
+                animDelay = i * animDelayPerItem,
+                animDuration = 800 + (i * 300)
             )
             Spacer(modifier = Modifier.height(8.dp))
         }

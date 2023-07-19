@@ -52,15 +52,15 @@ fun parseTypeToColor(type: PokemonDto.Type): Color {
 }
 fun changeTypeEngToRus(type: PokemonDto.Type): String {
     return when (type.type.name.lowercase()) {
-        "normal" -> "Обычный"
+        "normal" -> "Физический"
         "fire" -> "Огненный"
-        "water" -> "Водяной"
+        "water" -> "Водный"
         "grass" -> "Растение"
         "electric" -> "Электрический"
         "ice" -> "Ледяной"
         "fighting" -> "Боец"
         "poison" -> "Ядовитый"
-        "ground" -> "Земля"
+        "ground" -> "Земляной"
         "flying" -> "Летающий"
         "psychic" -> "Психо"
         "bug" -> "Жук"
@@ -70,7 +70,7 @@ fun changeTypeEngToRus(type: PokemonDto.Type): String {
         "dark" -> "Тьма"
         "steel" -> "Стальной"
         "fairy" -> "Фея"
-        else -> "Не известный"
+        else -> "Неизвестный"
     }
 }
 
