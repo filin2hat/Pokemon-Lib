@@ -64,7 +64,7 @@ fun PokemonListScreen(
     ) {
         Column {
             Text(
-                text = "Pokemon Lib",
+                text = stringResource(R.string.pokemon_lib),
                 fontSize = 48.sp,
                 textAlign = TextAlign.Center,
                 fontFamily = PokemonHollow,
