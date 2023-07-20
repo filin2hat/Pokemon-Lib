@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
@@ -220,7 +219,7 @@ fun PokemonLibEntry(
                 )
             }
     ) {
-        Column{
+        Column {
             val painter = rememberAsyncImagePainter(
                 ImageRequest.Builder(LocalContext.current)
                     .data(data = entry.imageUrl)
@@ -232,7 +231,8 @@ fun PokemonLibEntry(
                                 }
                             }
                         )
-                    }).build()
+                    }).build(),
+                placeholder = painterResource(id = R.drawable.poketball),
             )
             Image(
                 painter = painter,

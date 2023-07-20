@@ -42,6 +42,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -117,27 +118,19 @@ fun PokemonDetailsScreen(
                 )
         )
         Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.TopCenter
+            modifier = Modifier
+                .fillMaxSize()
+                .offset(y = 60.dp),
+            contentAlignment = Alignment.BottomCenter
         ) {
             if (pokemonInfo is Resource.Success) {
                 pokemonInfo.data?.sprites?.other?.officialArtwork?.frontDefault.let {
                     AsyncImage(
                         model = it,
                         contentDescription = pokemonInfo.data?.name,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .offset(y = 100.dp)
+                        contentScale = ContentScale.FillHeight
                     )
                 }
-            }
-            if (pokemonInfo is Resource.Loading) {
-                CircularProgressIndicator(
-                    color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier
-                        .size(pokemonImageSize)
-                        .offset(y = topPadding)
-                )
             }
         }
     }
