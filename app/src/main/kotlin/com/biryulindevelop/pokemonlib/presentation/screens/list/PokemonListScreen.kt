@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -219,7 +220,7 @@ fun PokemonLibEntry(
                 )
             }
     ) {
-        Column {
+        Column{
             val painter = rememberAsyncImagePainter(
                 ImageRequest.Builder(LocalContext.current)
                     .data(data = entry.imageUrl)
@@ -237,7 +238,7 @@ fun PokemonLibEntry(
                 painter = painter,
                 contentDescription = entry.pokemonName,
                 modifier = Modifier
-                    .size(135.dp)
+                    .fillMaxHeight(0.8f)
                     .align(CenterHorizontally)
             )
             Text(
@@ -248,7 +249,7 @@ fun PokemonLibEntry(
                 fontSize = 20.sp,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxWidth()
             )
         }
     }

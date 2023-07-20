@@ -108,6 +108,7 @@ fun PokemonDetailsScreen(
                 .clip(RoundedCornerShape(10.dp))
                 .background(MaterialTheme.colorScheme.surface)
                 .align(Alignment.BottomCenter),
+
             loadingModifier = Modifier
                 .size(100.dp)
                 .align(Alignment.Center)
