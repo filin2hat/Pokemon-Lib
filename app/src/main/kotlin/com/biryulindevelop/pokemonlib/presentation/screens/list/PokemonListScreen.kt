@@ -3,6 +3,7 @@ package com.biryulindevelop.pokemonlib.presentation.screens.list
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -39,6 +41,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -63,16 +66,30 @@ fun PokemonListScreen(
         modifier = Modifier.fillMaxSize()
     ) {
         Column {
-            Text(
-                text = stringResource(R.string.pokemon_lib),
-                fontSize = 48.sp,
-                textAlign = TextAlign.Center,
-                fontFamily = PokemonHollow,
-                color = MaterialTheme.colorScheme.primary,
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 18.dp)
-            )
+                    .height(84.dp),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_international_pok_mon_logo),
+                    contentDescription = "Pokemon Logo",
+                    modifier = Modifier
+                        .padding(top = 12.dp)
+                )
+                Text(
+                    text = stringResource(R.string.pokemon_lib),
+                    fontSize = 54.sp,
+                    textAlign = TextAlign.Center,
+                    fontFamily = PokemonHollow,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier
+                        .padding(top = 8.dp)
+                        .width(90.dp)
+                        .offset(x = (-10).dp)
+                )
+            }
             SearchBar(
                 hint = stringResource(R.string.search),
                 modifier = Modifier
