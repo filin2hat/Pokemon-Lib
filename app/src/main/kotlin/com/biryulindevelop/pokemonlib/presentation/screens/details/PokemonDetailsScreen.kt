@@ -54,7 +54,6 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.biryulindevelop.pokemonlib.R
 import com.biryulindevelop.pokemonlib.domain.dto.PokemonDto
-import com.biryulindevelop.pokemonlib.ui.theme.PokemonHollow
 import com.biryulindevelop.pokemonlib.ui.theme.PokemonSolid
 import com.biryulindevelop.pokemonlib.ui.theme.PoketMonk
 import com.biryulindevelop.pokemonlib.util.Resource
@@ -81,7 +80,6 @@ fun PokemonDetailsScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(dominantColor)
-            .padding(bottom = 10.dp)
             .verticalScroll(rememberScrollState())
     )
     {
@@ -99,7 +97,6 @@ fun PokemonDetailsScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(
-                    top = topPadding + pokemonImageSize / 1.7f,
                     start = 16.dp,
                     end = 16.dp,
                     bottom = 16.dp
@@ -129,8 +126,8 @@ fun PokemonDetailsScreen(
                         model = it,
                         contentDescription = pokemonInfo.data?.name,
                         modifier = Modifier
-                            .size(pokemonImageSize)
-                            .offset(y = topPadding - 10.dp)
+                            .fillMaxSize()
+                            .offset(y = 100.dp)
                     )
                 }
             }
@@ -251,6 +248,7 @@ fun PokemonDetailSelection(
             pokemonHeight = pokemonInfo.height
         )
         PokemonBaseStats(pokemonInfo = pokemonInfo)
+        Spacer(modifier = Modifier.height(15.dp))
     }
 }
 
@@ -436,6 +434,7 @@ fun PokemonBaseStats(
             color = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier
                 .align(CenterHorizontally)
+                .padding(bottom = 8.dp)
         )
         Spacer(modifier = Modifier.height(4.dp))
         for (i in pokemonInfo.stats.indices) {
