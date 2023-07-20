@@ -15,6 +15,7 @@ import androidx.navigation.navArgument
 import com.biryulindevelop.pokemonlib.R
 import com.biryulindevelop.pokemonlib.presentation.screens.details.PokemonDetailsScreen
 import com.biryulindevelop.pokemonlib.presentation.screens.list.PokemonListScreen
+import com.biryulindevelop.pokemonlib.presentation.screens.splash.PokemonSplashScreen
 import com.biryulindevelop.pokemonlib.ui.theme.PokemonLibTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,8 +26,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             PokemonLibTheme {
                 val navController = rememberNavController()
-                NavHost(navController = navController, startDestination = Screen.PokemonList.route) {
+                NavHost(navController = navController, startDestination = Screen.PokemonSplash.route) {
+
+                    addScreen(Screen.PokemonSplash) { PokemonSplashScreen(navController = navController) }
+
                     addScreen(Screen.PokemonList) { PokemonListScreen(navController = navController) }
+
                     addScreen(Screen.PokemonDetails) { backStackEntry ->
                         val dominantColor = remember {
                             val color = backStackEntry.arguments?.getInt("dominantColor")
@@ -57,6 +62,7 @@ class MainActivity : ComponentActivity() {
 }
 
 sealed class Screen(val route: String, val arguments: List<NamedNavArgument>) {
+    object PokemonSplash : Screen("pokemon_splash_screen", emptyList())
     object PokemonList : Screen("pokemon_list_screen", emptyList())
     object PokemonDetails : Screen(
         "pokemon_detail_screen/{dominantColor}/{pokemonName}",
