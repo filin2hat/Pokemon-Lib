@@ -16,7 +16,9 @@ val PoketMonk = FontFamily(
 val PokemonHollow = FontFamily(
     Font(R.font.pokemon_hollow, FontWeight.Normal),
 )
-
+val PokemonSolid = FontFamily(
+    Font(R.font.pokemon_solid, FontWeight.Normal),
+)
 val Typography = Typography(
     bodyLarge = TextStyle(
         fontFamily = PoketMonk,

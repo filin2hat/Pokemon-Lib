@@ -55,6 +55,8 @@ import coil.compose.AsyncImage
 import com.biryulindevelop.pokemonlib.R
 import com.biryulindevelop.pokemonlib.domain.dto.PokemonDto
 import com.biryulindevelop.pokemonlib.ui.theme.PokemonHollow
+import com.biryulindevelop.pokemonlib.ui.theme.PokemonSolid
+import com.biryulindevelop.pokemonlib.ui.theme.PoketMonk
 import com.biryulindevelop.pokemonlib.util.Resource
 import com.biryulindevelop.pokemonlib.util.changeTypeEngToRus
 import com.biryulindevelop.pokemonlib.util.parseStatColor
@@ -401,13 +403,15 @@ fun PokemonStat(
         ) {
             Text(
                 text = statName,
-                fontFamily = PokemonHollow,
-                fontWeight = FontWeight.Bold
+                fontFamily = PokemonSolid,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
             )
             Text(
                 text = (curPercent.value * statMaxValue).toInt().toString(),
-                fontFamily = PokemonHollow,
-                fontWeight = FontWeight.Bold
+                fontFamily = PoketMonk,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
             )
         }
     }
