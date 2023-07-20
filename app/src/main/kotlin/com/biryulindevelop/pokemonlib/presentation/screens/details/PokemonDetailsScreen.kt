@@ -80,9 +80,10 @@ fun PokemonDetailsScreen(
             .fillMaxSize()
             .background(dominantColor)
             .padding(bottom = 10.dp)
-    ) {
+            .verticalScroll(rememberScrollState())
+    )
+    {
         PokemonDetailTopSection(
-
             navController = navController,
             modifier = Modifier
                 .fillMaxWidth()
@@ -109,13 +110,12 @@ fun PokemonDetailsScreen(
                 .size(100.dp)
                 .align(Alignment.Center)
                 .padding(
-                    top = topPadding + pokemonImageSize / 2f,
+                    top = topPadding + pokemonImageSize,
                     start = 16.dp,
                     end = 16.dp,
                     bottom = 16.dp
                 )
         )
-
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.TopCenter
@@ -141,6 +141,8 @@ fun PokemonDetailsScreen(
             }
         }
     }
+
+
 }
 
 @Composable
@@ -200,7 +202,6 @@ fun PokemonDetailStateWrapper(
             PokemonDetailSelection(
                 pokemonInfo = pokemonInfo.data!!,
                 modifier = modifier
-                    .offset(y = (-20).dp)
             )
         }
 
@@ -226,13 +227,10 @@ fun PokemonDetailSelection(
     pokemonInfo: PokemonDto,
     modifier: Modifier = Modifier
 ) {
-    val scrollState = rememberScrollState()
     Column(
         horizontalAlignment = CenterHorizontally,
         modifier = modifier
-            .fillMaxSize()
-            .offset(y = 100.dp)
-            .verticalScroll(scrollState)
+            .padding(top = 100.dp)
     ) {
         Text(
             text = pokemonInfo.name.replaceFirstChar {
@@ -447,6 +445,5 @@ fun PokemonBaseStats(
             )
             Spacer(modifier = Modifier.height(8.dp))
         }
-
     }
 }
