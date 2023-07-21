@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -55,6 +54,7 @@ import coil.request.ImageRequest
 import com.biryulindevelop.pokemonlib.R
 import com.biryulindevelop.pokemonlib.domain.model.PokemonLibListEntry
 import com.biryulindevelop.pokemonlib.ui.theme.PokemonHollow
+import com.biryulindevelop.pokemonlib.ui.theme.PoketMonk
 
 @Composable
 fun PokemonListScreen(
@@ -83,7 +83,7 @@ fun PokemonListScreen(
                     fontSize = 54.sp,
                     textAlign = TextAlign.Center,
                     fontFamily = PokemonHollow,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = Color.Yellow,
                     modifier = Modifier
                         .padding(top = 8.dp)
                         .width(90.dp)
@@ -198,7 +198,6 @@ fun PokemonLibEntry(
     var dominantColor by remember {
         mutableStateOf(defaultDominantColor)
     }
-
     Box(
         contentAlignment = Center,
         modifier = modifier
@@ -219,7 +218,9 @@ fun PokemonLibEntry(
                 )
             }
     ) {
-        Column {
+        Column(
+            horizontalAlignment = CenterHorizontally
+        ) {
             val painter = rememberAsyncImagePainter(
                 ImageRequest.Builder(LocalContext.current)
                     .data(data = entry.imageUrl)
@@ -238,18 +239,21 @@ fun PokemonLibEntry(
                 painter = painter,
                 contentDescription = entry.pokemonName,
                 modifier = Modifier
-                    .fillMaxHeight(0.8f)
-                    .align(CenterHorizontally)
+                    .fillMaxSize()
+                    .weight(3.5f)
+                    .padding(4.dp)
             )
             Text(
                 text = entry.pokemonName,
                 fontFamily = PokemonHollow,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary,
-                fontSize = 20.sp,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxSize()
+                    .weight(1f)
+                    .padding(start = 4.dp, end = 4.dp, bottom = 2.dp)
+                    .offset(y = (-5).dp)
             )
         }
     }
@@ -291,8 +295,10 @@ fun RetryLoading(
     Column {
         Text(
             text = error,
-            color = Color.Red, fontSize = 18.sp,
-            textAlign = TextAlign.Center
+            color = Color.Red,
+            fontSize = 18.sp,
+            textAlign = TextAlign.Center,
+            fontFamily = PoketMonk
         )
         Spacer(modifier = Modifier.height(8.dp))
         Button(
@@ -300,7 +306,8 @@ fun RetryLoading(
             modifier = Modifier.align(CenterHorizontally)
         ) {
             Text(
-                text = stringResource(R.string.retry)
+                text = stringResource(R.string.retry),
+                fontFamily = PoketMonk
             )
         }
     }
