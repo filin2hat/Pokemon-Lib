@@ -4,12 +4,12 @@
 Pokedex demonstrates modern Android development with Jetpack Compose, Hilt, Coroutines, Flow, 
 Jetpack (Retrofit, ViewModel), and Material Design based on MVVM architecture.
 </p>
-![Screenshot_1](https://github.com/filin2hat/Pokemon-Lib/assets/94535311/7e4a0305-7b93-4979-adad-8da0fe178d37)
-![Screenshot_2](https://github.com/filin2hat/Pokemon-Lib/assets/94535311/8ff1da3d-57e0-4ed9-ac72-6743f962733b)
-![Screenshot_3](https://github.com/filin2hat/Pokemon-Lib/assets/94535311/9234ccbb-4017-41f8-a68d-ef986c6515af)
-![Screenshot_4](https://github.com/filin2hat/Pokemon-Lib/assets/94535311/4efcf3f9-bdf2-4f5d-89f2-f73f8c836b52)
-![Screenshot_5](https://github.com/filin2hat/Pokemon-Lib/assets/94535311/d069b53e-d1e5-4477-888f-216750c80d86)
-![Screenshot_6](https://github.com/filin2hat/Pokemon-Lib/assets/94535311/e1015e05-95cf-4289-8eb7-5255cd683dac)
+<img src="https://github.com/filin2hat/Pokemon-Lib/assets/94535311/7e4a0305-7b93-4979-adad-8da0fe178d37" align="center" width="21%"/>
+<img src="https://github.com/filin2hat/Pokemon-Lib/assets/94535311/8ff1da3d-57e0-4ed9-ac72-6743f962733b" align="center" width="21%"/>
+<img src="https://github.com/filin2hat/Pokemon-Lib/assets/94535311/9234ccbb-4017-41f8-a68d-ef986c6515af" align="center" width="21%"/>
+<img src="https://github.com/filin2hat/Pokemon-Lib/assets/94535311/4efcf3f9-bdf2-4f5d-89f2-f73f8c836b52" align="center" width="21%"/>
+<img src="https://github.com/filin2hat/Pokemon-Lib/assets/94535311/d069b53e-d1e5-4477-888f-216750c80d86" align="center" width="21%"/>
+<img src="https://github.com/filin2hat/Pokemon-Lib/assets/94535311/e1015e05-95cf-4289-8eb7-5255cd683dac" align="center" width="21%"/>
 
 ## Tech stack & Open-source libraries
 
