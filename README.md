@@ -1,8 +1,4 @@
-<h1 align="center">Pokedex</h1>
-
-<p align="center">
-  <a href="https://github.com/filin2hat"><img alt="Profile" src="https://filin2hat.github.io/badges/filin2hat.svg"/></a> 
-</p>
+<h1 align="center">Pokedex</h1>>
 
 <p align="center">  
 Pokedex demonstrates modern Android development with Jetpack Compose, Hilt, Coroutines, Flow, 
@@ -18,8 +14,7 @@ Jetpack (Retrofit, ViewModel), and Material Design based on MVVM architecture.
       for asynchronous.
 - Jetpack
     - Compose: for UI
-    - ViewModel: Manages UI-related data holder and lifecycle aware. Allows data to survive
-      configuration changes such as screen rotations.
+    - ViewModel: Manages UI-related data holder and lifecycle aware.
     - [Hilt](https://dagger.dev/hilt/): for dependency injection.
 - Architecture
     - MVVM Architecture (View - DataBinding - ViewModel - Model)
@@ -27,8 +22,8 @@ Jetpack (Retrofit, ViewModel), and Material Design based on MVVM architecture.
 - [Retrofit2 & OkHttp3](https://github.com/square/retrofit): Construct the REST APIs and paging
   network data.
 - [Material-Components](https://github.com/material-components/material-components-android):
-  Material design components for building some components.
-- [Coil](https://github.com/coil-kt/coil): Image loading
+  Material design components for building some UI components.
+- [Coil](https://github.com/coil-kt/coil): Image loading.
 - [Palette](https://developer.android.com/jetpack/androidx/releases/palette): Extract representative
   color palettes
   from images.
@@ -38,8 +33,6 @@ Jetpack (Retrofit, ViewModel), and Material Design based on MVVM architecture.
 
 **Pokedex** is based on the MVVM architecture and the Repository pattern, which follows
 the [Google's official architecture guidance](https://developer.android.com/topic/architecture).
-
-![architecture](figure/figure0.png)
 
 The overall architecture of **Pokedex** is composed of two layers; the UI layer and the data layer.
 Each layer has dedicated components and they have each different responsibilities, as defined below:
