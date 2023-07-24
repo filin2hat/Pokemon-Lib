@@ -115,27 +115,33 @@ fun LogoAnimation(alpha: Float) {
 fun TextLogo(
     alpha: Float
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxSize()
-            .alpha(alpha),
-        horizontalArrangement = Arrangement.Center
+    Column(
+        modifier = Modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.ic_international_pok_mon_logo),
-            contentDescription = "Pokemon Logo"
-        )
-        Text(
-            text = stringResource(R.string.pokemon_lib),
-            fontSize = 54.sp,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
-            fontFamily = PokemonHollow,
-            color = Color.Yellow,
+        Row(
             modifier = Modifier
-                .width(90.dp)
-                .offset(x = (-10).dp)
-        )
+                .fillMaxSize()
+                .alpha(alpha),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_international_pok_mon_logo),
+                contentDescription = "Pokemon Logo"
+            )
+            Text(
+                text = stringResource(R.string.pokemon_lib),
+                fontSize = 54.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                fontFamily = PokemonHollow,
+                color = Color.Yellow,
+                modifier = Modifier
+                    .width(90.dp)
+                    .offset(x = (-10).dp)
+            )
+        }
     }
 }
 
