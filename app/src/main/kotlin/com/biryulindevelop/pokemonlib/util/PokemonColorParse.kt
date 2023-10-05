@@ -22,6 +22,7 @@ import com.biryulindevelop.pokemonlib.ui.theme.TypeGround
 import com.biryulindevelop.pokemonlib.ui.theme.TypeIce
 import com.biryulindevelop.pokemonlib.ui.theme.TypeNormal
 import com.biryulindevelop.pokemonlib.ui.theme.TypePoison
+import com.biryulindevelop.pokemonlib.ui.theme.TypePressure
 import com.biryulindevelop.pokemonlib.ui.theme.TypePsychic
 import com.biryulindevelop.pokemonlib.ui.theme.TypeRock
 import com.biryulindevelop.pokemonlib.ui.theme.TypeSteel
@@ -47,6 +48,7 @@ fun parseTypeToColor(type: PokemonDto.Type): Color {
         "dark" -> TypeDark
         "steel" -> TypeSteel
         "fairy" -> TypeFairy
+        "pressure" -> TypePressure
         else -> Color.Black
     }
 }
@@ -70,6 +72,7 @@ fun changeTypeEngToRus(type: PokemonDto.Type): String {
         "dark" -> "Тьма"
         "steel" -> "Стальной"
         "fairy" -> "Фея"
+        "pressure" -> "Давление"
         else -> "Неизвестный"
     }
 }

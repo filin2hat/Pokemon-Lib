@@ -201,8 +201,12 @@ fun PokemonDetailStateWrapper(
         is Resource.Error -> {
             Text(
                 text = pokemonInfo.message!!,
-                color = MaterialTheme.colorScheme.error,
+                color = Color.Red,
+                fontSize = 18.sp,
+                textAlign = TextAlign.Center,
+                fontFamily = PoketMonk,
                 modifier = modifier
+                    .padding(horizontal = 16.dp)
             )
         }
 

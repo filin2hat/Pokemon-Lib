@@ -3,6 +3,9 @@ package com.biryulindevelop.pokemonlib.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
@@ -10,7 +13,9 @@ import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
-import androidx.navigation.compose.*
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.biryulindevelop.pokemonlib.R
 import com.biryulindevelop.pokemonlib.presentation.screens.details.PokemonDetailsScreen
@@ -26,8 +31,33 @@ class MainActivity : ComponentActivity() {
         setContent {
             PokemonLibTheme {
                 val navController = rememberNavController()
-                NavHost(navController = navController, startDestination = Screen.PokemonSplash.route) {
-
+                NavHost(navController = navController,
+                    startDestination = Screen.PokemonSplash.route,
+                    enterTransition = {
+                        slideInHorizontally(
+                            initialOffsetX = { it },
+                            animationSpec = tween(400)
+                        )
+                    },
+                    exitTransition = {
+                        slideOutHorizontally(
+                            targetOffsetX = { -it },
+                            animationSpec = tween(400)
+                        )
+                    },
+                    popEnterTransition = {
+                        slideInHorizontally(
+                            initialOffsetX = { -it },
+                            animationSpec = tween(400)
+                        )
+                    },
+                    popExitTransition = {
+                        slideOutHorizontally(
+                            targetOffsetX = { it },
+                            animationSpec = tween(400)
+                        )
+                    }
+                ) {
                     addScreen(Screen.PokemonSplash) { PokemonSplashScreen(navController = navController) }
 
                     addScreen(Screen.PokemonList) { PokemonListScreen(navController = navController) }
@@ -38,7 +68,8 @@ class MainActivity : ComponentActivity() {
                             color?.let { Color(it) } ?: Color.White
                         }
                         val pokemonName = remember {
-                            backStackEntry.arguments?.getString("pokemonName") ?: getString(R.string.noname)
+                            backStackEntry.arguments?.getString("pokemonName")
+                                ?: getString(R.string.noname)
                         }
                         PokemonDetailsScreen(
                             dominantColor = dominantColor,

@@ -3,6 +3,7 @@ package com.biryulindevelop.pokemonlib.ui.theme
 import androidx.compose.ui.graphics.Color
 
 val LightBlue = Color(0xFFBAC7FF)
+val DarkBlue = Color(0xFF4B5270)
 val lightGrey = Color(0xFFAAAAAA)
 
 val HPColor = Color(0xB2F5FF00)
@@ -30,3 +31,4 @@ val TypeDragon = Color(0xFF6F35FC)
 val TypeDark = Color(0xFF705746)
 val TypeSteel = Color(0xFFB7B7CE)
 val TypeFairy = Color(0xFFD685AD)
+val TypePressure = Color(0xFF0D2F69)
