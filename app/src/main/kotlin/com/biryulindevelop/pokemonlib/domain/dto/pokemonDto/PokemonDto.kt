@@ -1,16 +1,16 @@
 package com.biryulindevelop.pokemonlib.domain.dto.pokemonDto
 
 
-import com.biryulindevelop.pokemonlib.domain.dto.sprites.Sprites
+import com.biryulindevelop.pokemonlib.domain.dto.spritesDto.SpritesDto
 import com.google.gson.annotations.SerializedName
 
 data class PokemonDto(
-    val abilities: List<Ability> = listOf(),
+    val abilities: List<AbilityDto> = listOf(),
     @SerializedName("base_experience")
     val baseExperience: Int = 0,
-    val forms: List<Form> = listOf(),
+    val forms: List<FormDto> = listOf(),
     @SerializedName("game_indices")
-    val gameIndices: List<GameIndice> = listOf(),
+    val gameIndices: List<GameIndiceDto> = listOf(),
     val height: Int = 0,
     @SerializedName("held_items")
     val heldItems: List<Any> = listOf(),
@@ -19,14 +19,14 @@ data class PokemonDto(
     val isDefault: Boolean = false,
     @SerializedName("location_area_encounters")
     val locationAreaEncounters: String = "",
-    val moves: List<Move> = listOf(),
+    val moves: List<MoveDto> = listOf(),
     val name: String = "",
     val order: Int = 0,
     @SerializedName("past_types")
     val pastTypes: List<Any> = listOf(),
-    val species: Species = Species(),
-    val sprites: Sprites = Sprites(),
-    val stats: List<Stat> = listOf(),
-    val types: List<Type> = listOf(),
+    val species: SpeciesDto = SpeciesDto(),
+    val sprites: SpritesDto = SpritesDto(),
+    val stats: List<StatDto> = listOf(),
+    val types: List<TypeDto> = listOf(),
     val weight: Int = 0
 )

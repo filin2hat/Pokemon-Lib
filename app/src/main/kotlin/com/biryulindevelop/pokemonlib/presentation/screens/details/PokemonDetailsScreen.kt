@@ -55,7 +55,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.biryulindevelop.pokemonlib.R
 import com.biryulindevelop.pokemonlib.domain.dto.pokemonDto.PokemonDto
-import com.biryulindevelop.pokemonlib.domain.dto.pokemonDto.Type
+import com.biryulindevelop.pokemonlib.domain.dto.pokemonDto.TypeDto
 import com.biryulindevelop.pokemonlib.ui.theme.PokemonSolid
 import com.biryulindevelop.pokemonlib.ui.theme.PoketMonk
 import com.biryulindevelop.pokemonlib.util.Resource
@@ -193,22 +193,26 @@ fun PokemonDetailStateWrapper(
 ) {
     when (pokemonInfo) {
         is Resource.Success -> {
-            PokemonDetailSelection(
-                pokemonInfo = pokemonInfo.data!!,
-                modifier = modifier
-            )
+            pokemonInfo.data?.let {
+                PokemonDetailSelection(
+                    pokemonInfo = it,
+                    modifier = modifier
+                )
+            }
         }
 
         is Resource.Error -> {
-            Text(
-                text = pokemonInfo.message!!,
-                color = Color.Red,
-                fontSize = 18.sp,
-                textAlign = TextAlign.Center,
-                fontFamily = PoketMonk,
-                modifier = modifier
-                    .padding(horizontal = 16.dp)
-            )
+            pokemonInfo.message?.let {
+                Text(
+                    text = it,
+                    color = Color.Red,
+                    fontSize = 18.sp,
+                    textAlign = TextAlign.Center,
+                    fontFamily = PoketMonk,
+                    modifier = modifier
+                        .padding(horizontal = 16.dp)
+                )
+            }
         }
 
         is Resource.Loading -> {
@@ -251,7 +255,7 @@ fun PokemonDetailSelection(
 }
 
 @Composable
-fun PokemonTypeSection(types: List<Type>) {
+fun PokemonTypeSection(types: List<TypeDto>) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -368,7 +372,7 @@ fun PokemonStat(
         animationSpec = tween(
             animDuration,
             animDelay
-        )
+        ), label = ""
     )
 
     LaunchedEffect(key1 = true) {

@@ -1,8 +1,10 @@
 package com.biryulindevelop.pokemonlib.di
 
-import com.biryulindevelop.pokemonlib.data.remote.PokemonApi
-import com.biryulindevelop.pokemonlib.data.repository.PokemonRepository
+import com.biryulindevelop.pokemonlib.data.repository.PokemonApi
+import com.biryulindevelop.pokemonlib.data.repository.PokemonRepositoryImpl
+import com.biryulindevelop.pokemonlib.domain.repository.PokemonRepository
 import com.biryulindevelop.pokemonlib.util.Constants
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,13 +15,19 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
+interface RepositoryModule {
 
     @Singleton
-    @Provides
-    fun providePokemonRepository(api: PokemonApi): PokemonRepository {
-        return PokemonRepository(api)
-    }
+    @Binds
+    fun bindPokemonRepository(
+        pokemonRepositoryImpl: PokemonRepositoryImpl
+    ): PokemonRepository
+
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+object AppModule {
 
     @Singleton
     @Provides

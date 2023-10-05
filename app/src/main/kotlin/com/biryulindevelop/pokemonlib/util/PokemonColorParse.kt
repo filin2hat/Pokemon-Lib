@@ -1,8 +1,8 @@
 package com.biryulindevelop.pokemonlib.util
 
 import androidx.compose.ui.graphics.Color
-import com.biryulindevelop.pokemonlib.domain.dto.pokemonDto.Stat
-import com.biryulindevelop.pokemonlib.domain.dto.pokemonDto.Type
+import com.biryulindevelop.pokemonlib.domain.dto.pokemonDto.StatDto
+import com.biryulindevelop.pokemonlib.domain.dto.pokemonDto.TypeDto
 import com.biryulindevelop.pokemonlib.ui.theme.AtkColor
 import com.biryulindevelop.pokemonlib.ui.theme.DefColor
 import com.biryulindevelop.pokemonlib.ui.theme.HPColor
@@ -29,7 +29,7 @@ import com.biryulindevelop.pokemonlib.ui.theme.TypeRock
 import com.biryulindevelop.pokemonlib.ui.theme.TypeSteel
 import com.biryulindevelop.pokemonlib.ui.theme.TypeWater
 
-fun parseTypeToColor(type: Type): Color {
+fun parseTypeToColor(type: TypeDto): Color {
     return when (type.type.name.lowercase()) {
         "normal" -> TypeNormal
         "fire" -> TypeFire
@@ -54,7 +54,7 @@ fun parseTypeToColor(type: Type): Color {
     }
 }
 
-fun changeTypeEngToRus(type: Type): String {
+fun changeTypeEngToRus(type: TypeDto): String {
     return when (type.type.name.lowercase()) {
         "normal" -> "Физический"
         "fire" -> "Огненный"
@@ -79,7 +79,7 @@ fun changeTypeEngToRus(type: Type): String {
     }
 }
 
-fun parseStatColor(stat: Stat): Color {
+fun parseStatColor(stat: StatDto): Color {
     return when (stat.stat.name.lowercase()) {
         "hp" -> HPColor
         "attack" -> AtkColor
@@ -91,7 +91,7 @@ fun parseStatColor(stat: Stat): Color {
     }
 }
 
-fun parseStatToAbbr(stat: Stat): String {
+fun parseStatToAbbr(stat: StatDto): String {
     return when (stat.stat.name.lowercase()) {
         "hp" -> "HP"
         "attack" -> "Atk"

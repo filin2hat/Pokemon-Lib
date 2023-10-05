@@ -51,9 +51,8 @@ fun PokemonSplashScreen(navController: NavController) {
     var startAnimation by remember { mutableStateOf(false) }
     val alphaAnim = animateFloatAsState(
         targetValue = if (startAnimation) 1f else 0f,
-        animationSpec = tween(
-            durationMillis = 2200
-        )
+        animationSpec = tween(durationMillis = 2200),
+        label = ""
     )
     val mp = MediaPlayer.create(LocalContext.current, R.raw.pika_pika_sound)
 
