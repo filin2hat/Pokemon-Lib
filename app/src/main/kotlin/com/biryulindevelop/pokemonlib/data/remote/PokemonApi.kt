@@ -1,7 +1,7 @@
 package com.biryulindevelop.pokemonlib.data.remote
 
-import com.biryulindevelop.pokemonlib.domain.dto.PokemonDto
-import com.biryulindevelop.pokemonlib.domain.dto.PokemonListDto
+import com.biryulindevelop.pokemonlib.domain.dto.pokemonDto.PokemonDto
+import com.biryulindevelop.pokemonlib.domain.dto.pokemonList.PokemonListDto
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

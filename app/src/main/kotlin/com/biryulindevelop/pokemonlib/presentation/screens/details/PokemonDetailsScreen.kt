@@ -54,7 +54,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.biryulindevelop.pokemonlib.R
-import com.biryulindevelop.pokemonlib.domain.dto.PokemonDto
+import com.biryulindevelop.pokemonlib.domain.dto.pokemonDto.PokemonDto
+import com.biryulindevelop.pokemonlib.domain.dto.pokemonDto.Type
 import com.biryulindevelop.pokemonlib.ui.theme.PokemonSolid
 import com.biryulindevelop.pokemonlib.ui.theme.PoketMonk
 import com.biryulindevelop.pokemonlib.util.Resource
@@ -250,7 +251,7 @@ fun PokemonDetailSelection(
 }
 
 @Composable
-fun PokemonTypeSection(types: List<PokemonDto.Type>) {
+fun PokemonTypeSection(types: List<Type>) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier

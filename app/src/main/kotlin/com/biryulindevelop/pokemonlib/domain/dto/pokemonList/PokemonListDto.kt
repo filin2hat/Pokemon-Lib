@@ -1,4 +1,4 @@
-package com.biryulindevelop.pokemonlib.domain.dto
+package com.biryulindevelop.pokemonlib.domain.dto.pokemonList
 
 
 data class PokemonListDto(
@@ -6,9 +6,4 @@ data class PokemonListDto(
     val next: String = "",
     val previous: Any = Any(),
     val results: List<Result> = listOf()
-) {
-    data class Result(
-        val name: String = "",
-        val url: String = ""
-    )
-}
+)

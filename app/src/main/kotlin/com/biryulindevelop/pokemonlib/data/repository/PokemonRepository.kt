@@ -1,8 +1,8 @@
 package com.biryulindevelop.pokemonlib.data.repository
 
 import com.biryulindevelop.pokemonlib.data.remote.PokemonApi
-import com.biryulindevelop.pokemonlib.domain.dto.PokemonDto
-import com.biryulindevelop.pokemonlib.domain.dto.PokemonListDto
+import com.biryulindevelop.pokemonlib.domain.dto.pokemonDto.PokemonDto
+import com.biryulindevelop.pokemonlib.domain.dto.pokemonList.PokemonListDto
 import com.biryulindevelop.pokemonlib.util.Resource
 import dagger.hilt.android.scopes.ActivityScoped
 import javax.inject.Inject
