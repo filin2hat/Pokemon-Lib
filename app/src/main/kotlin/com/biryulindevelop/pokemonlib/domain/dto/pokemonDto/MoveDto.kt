@@ -1,9 +1,11 @@
 package com.biryulindevelop.pokemonlib.domain.dto.pokemonDto
 
+
 import com.google.gson.annotations.SerializedName
 
 data class MoveDto(
-    val move: MoveNameDto = MoveNameDto(),
+    @SerializedName("move")
+    val move: MoveXDto,
     @SerializedName("version_group_details")
-    val versionGroupDetails: List<VersionGroupDetailDto> = listOf()
+    val versionGroupDetails: List<VersionGroupDetailDto>
 )

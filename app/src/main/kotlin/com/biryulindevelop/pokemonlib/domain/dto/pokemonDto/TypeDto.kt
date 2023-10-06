@@ -1,7 +1,11 @@
 package com.biryulindevelop.pokemonlib.domain.dto.pokemonDto
 
 
+import com.google.gson.annotations.SerializedName
+
 data class TypeDto(
-    val slot: Int = 0,
-    val type: TypeNameDto = TypeNameDto()
+    @SerializedName("slot")
+    val slot: Int,
+    @SerializedName("type")
+    val type: TypeXDto
 )

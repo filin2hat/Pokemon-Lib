@@ -44,6 +44,7 @@ import com.biryulindevelop.pokemonlib.R
 import com.biryulindevelop.pokemonlib.ui.theme.DarkBlue
 import com.biryulindevelop.pokemonlib.ui.theme.LightBlue
 import com.biryulindevelop.pokemonlib.ui.theme.PokemonHollow
+import com.biryulindevelop.pokemonlib.util.Constants
 import kotlinx.coroutines.delay
 
 @Composable
@@ -51,7 +52,7 @@ fun PokemonSplashScreen(navController: NavController) {
     var startAnimation by remember { mutableStateOf(false) }
     val alphaAnim = animateFloatAsState(
         targetValue = if (startAnimation) 1f else 0f,
-        animationSpec = tween(durationMillis = 2200),
+        animationSpec = tween(durationMillis = Constants.SPLASH_SCREEN_DURATION),
         label = ""
     )
     val mp = MediaPlayer.create(LocalContext.current, R.raw.pika_pika_sound)

@@ -1,9 +1,15 @@
 package com.biryulindevelop.pokemonlib.domain.dto.pokemonListDto
 
 
+import com.google.gson.annotations.SerializedName
+
 data class PokemonListDto(
-    val count: Int = 0,
-    val next: String = "",
-    val previous: Any = Any(),
-    val results: List<ResultDto> = listOf()
+    @SerializedName("count")
+    val count: Int,
+    @SerializedName("next")
+    val next: String,
+    @SerializedName("previous")
+    val previous: String?,
+    @SerializedName("results")
+    val results: List<ResultDto>
 )

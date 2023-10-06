@@ -1,10 +1,13 @@
 package com.biryulindevelop.pokemonlib.domain.dto.pokemonDto
 
+
 import com.google.gson.annotations.SerializedName
 
 data class AbilityDto(
-    val ability: AbilityNameDto = AbilityNameDto(),
+    @SerializedName("ability")
+    val ability: AbilityXDto,
     @SerializedName("is_hidden")
-    val isHidden: Boolean = false,
-    val slot: Int = 0
+    val isHidden: Boolean,
+    @SerializedName("slot")
+    val slot: Int
 )

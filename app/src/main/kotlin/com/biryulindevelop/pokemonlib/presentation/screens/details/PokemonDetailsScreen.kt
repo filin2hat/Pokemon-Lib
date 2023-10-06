@@ -43,6 +43,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -59,7 +60,7 @@ import com.biryulindevelop.pokemonlib.domain.dto.pokemonDto.TypeDto
 import com.biryulindevelop.pokemonlib.ui.theme.PokemonSolid
 import com.biryulindevelop.pokemonlib.ui.theme.PoketMonk
 import com.biryulindevelop.pokemonlib.util.Resource
-import com.biryulindevelop.pokemonlib.util.changeTypeEngToRus
+import com.biryulindevelop.pokemonlib.util.changeTypeName
 import com.biryulindevelop.pokemonlib.util.parseStatColor
 import com.biryulindevelop.pokemonlib.util.parseStatToAbbr
 import com.biryulindevelop.pokemonlib.util.parseTypeToColor
@@ -262,11 +263,7 @@ fun PokemonTypeSection(types: List<TypeDto>) {
             .padding(16.dp)
     ) {
         for (type in types) {
-            val charType: String = if (Locale.getDefault().language == "ru") {
-                changeTypeEngToRus(type)
-            } else {
-                type.type.name
-            }
+            val charType: String = changeTypeName(type = type, context = LocalContext.current)
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
@@ -442,7 +439,7 @@ fun PokemonBaseStats(
         for (i in pokemonInfo.stats.indices) {
             val stat = pokemonInfo.stats[i]
             PokemonStat(
-                statName = parseStatToAbbr(stat),
+                statName = parseStatToAbbr(stat = stat, context = LocalContext.current),
                 statValue = stat.baseStat,
                 statMaxValue = maxBaseStat,
                 statColor = parseStatColor(stat),

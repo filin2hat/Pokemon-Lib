@@ -8,8 +8,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.palette.graphics.Palette
-import com.biryulindevelop.pokemonlib.data.repository.PokemonRepositoryImpl
 import com.biryulindevelop.pokemonlib.domain.model.PokemonListEntry
+import com.biryulindevelop.pokemonlib.domain.repository.PokemonRepository
 import com.biryulindevelop.pokemonlib.util.Constants.PAGE_SIZE
 import com.biryulindevelop.pokemonlib.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PokemonListViewModel @Inject constructor(
-    private val repository: PokemonRepositoryImpl
+    private val repository: PokemonRepository
 ) : ViewModel() {
 
     private var currentPage = 0
