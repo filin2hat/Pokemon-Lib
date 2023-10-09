@@ -43,6 +43,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -54,11 +55,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.biryulindevelop.pokemonlib.R
-import com.biryulindevelop.pokemonlib.domain.dto.PokemonDto
+import com.biryulindevelop.pokemonlib.domain.dto.pokemonDto.PokemonDto
+import com.biryulindevelop.pokemonlib.domain.dto.pokemonDto.TypeDto
 import com.biryulindevelop.pokemonlib.ui.theme.PokemonSolid
 import com.biryulindevelop.pokemonlib.ui.theme.PoketMonk
 import com.biryulindevelop.pokemonlib.util.Resource
-import com.biryulindevelop.pokemonlib.util.changeTypeEngToRus
+import com.biryulindevelop.pokemonlib.util.changeTypeName
 import com.biryulindevelop.pokemonlib.util.parseStatColor
 import com.biryulindevelop.pokemonlib.util.parseStatToAbbr
 import com.biryulindevelop.pokemonlib.util.parseTypeToColor
@@ -192,22 +194,26 @@ fun PokemonDetailStateWrapper(
 ) {
     when (pokemonInfo) {
         is Resource.Success -> {
-            PokemonDetailSelection(
-                pokemonInfo = pokemonInfo.data!!,
-                modifier = modifier
-            )
+            pokemonInfo.data?.let {
+                PokemonDetailSelection(
+                    pokemonInfo = it,
+                    modifier = modifier
+                )
+            }
         }
 
         is Resource.Error -> {
-            Text(
-                text = pokemonInfo.message!!,
-                color = Color.Red,
-                fontSize = 18.sp,
-                textAlign = TextAlign.Center,
-                fontFamily = PoketMonk,
-                modifier = modifier
-                    .padding(horizontal = 16.dp)
-            )
+            pokemonInfo.message?.let {
+                Text(
+                    text = it,
+                    color = Color.Red,
+                    fontSize = 18.sp,
+                    textAlign = TextAlign.Center,
+                    fontFamily = PoketMonk,
+                    modifier = modifier
+                        .padding(horizontal = 16.dp)
+                )
+            }
         }
 
         is Resource.Loading -> {
@@ -250,18 +256,14 @@ fun PokemonDetailSelection(
 }
 
 @Composable
-fun PokemonTypeSection(types: List<PokemonDto.Type>) {
+fun PokemonTypeSection(types: List<TypeDto>) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .padding(16.dp)
     ) {
         for (type in types) {
-            val charType: String = if (Locale.getDefault().language == "ru") {
-                changeTypeEngToRus(type)
-            } else {
-                type.type.name
-            }
+            val charType: String = changeTypeName(type = type, context = LocalContext.current)
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
@@ -367,7 +369,7 @@ fun PokemonStat(
         animationSpec = tween(
             animDuration,
             animDelay
-        )
+        ), label = ""
     )
 
     LaunchedEffect(key1 = true) {
@@ -437,7 +439,7 @@ fun PokemonBaseStats(
         for (i in pokemonInfo.stats.indices) {
             val stat = pokemonInfo.stats[i]
             PokemonStat(
-                statName = parseStatToAbbr(stat),
+                statName = parseStatToAbbr(stat = stat, context = LocalContext.current),
                 statValue = stat.baseStat,
                 statMaxValue = maxBaseStat,
                 statColor = parseStatColor(stat),

@@ -8,8 +8,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.palette.graphics.Palette
-import com.biryulindevelop.pokemonlib.data.repository.PokemonRepository
-import com.biryulindevelop.pokemonlib.domain.model.PokemonLibListEntry
+import com.biryulindevelop.pokemonlib.domain.model.PokemonListEntry
+import com.biryulindevelop.pokemonlib.domain.repository.PokemonRepository
 import com.biryulindevelop.pokemonlib.util.Constants.PAGE_SIZE
 import com.biryulindevelop.pokemonlib.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,14 +24,19 @@ class PokemonListViewModel @Inject constructor(
 
     private var currentPage = 0
 
-    var pokemonList = mutableStateOf<List<PokemonLibListEntry>>(listOf())
+    var pokemonList = mutableStateOf<List<PokemonListEntry>>(listOf())
+        private set
     var loadError = mutableStateOf("")
+        private set
     var isLoading = mutableStateOf(false)
+        private set
     var endReached = mutableStateOf(false)
+        private set
 
-    private var cachedPokemonList = listOf<PokemonLibListEntry>()
+    private var cachedPokemonList = listOf<PokemonListEntry>()
     private var isSearchStarting = true
     var isSearching = mutableStateOf(false)
+        private set
 
     init {
         loadPokemonPaged()
@@ -72,28 +77,30 @@ class PokemonListViewModel @Inject constructor(
             isLoading.value = true
             when (val result = repository.getPokemonList(PAGE_SIZE, currentPage * PAGE_SIZE)) {
                 is Resource.Success -> {
-                    endReached.value = currentPage * PAGE_SIZE >= result.data!!.count
-                    val pokemonEntries = result.data.results.mapNotNull { entry ->
+                    val pokemonEntries = result.data?.results?.mapNotNull { entry ->
                         try {
                             val number = entry.url.getNumberFromUrl()
-                            val imageUrl = entry.url.getImageUrlFromNumber(number)
-                            PokemonLibListEntry(
-                                entry.name.replaceFirstChar { it.uppercase() },
-                                imageUrl,
-                                number
+                            val imageUrl = getImageUrlFromNumber(number)
+                            PokemonListEntry(
+                                pokemonName = entry.name.replaceFirstChar { it.uppercase() },
+                                imageUrl = imageUrl,
+                                id = number
                             )
                         } catch (e: Exception) {
                             null
                         }
                     }
-                    currentPage++
-                    loadError.value = ""
-                    isLoading.value = false
-                    pokemonList.value += pokemonEntries
+
+                    pokemonEntries?.let {
+                        currentPage++
+                        loadError.value = ""
+                        isLoading.value = false
+                        pokemonList.value += it
+                    }
                 }
 
                 is Resource.Error -> {
-                    loadError.value = result.message!!
+                    loadError.value = result.message.orEmpty()
                     isLoading.value = false
                 }
 
@@ -113,7 +120,7 @@ class PokemonListViewModel @Inject constructor(
         return numberString.toInt()
     }
 
-    private fun String.getImageUrlFromNumber(number: Int): String {
+    private fun getImageUrlFromNumber(number: Int): String {
         return "https://raw.githubusercontent" +
                 ".com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$number.png"
     }

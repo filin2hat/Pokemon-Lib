@@ -1,18 +1,16 @@
 package com.biryulindevelop.pokemonlib.data.repository
 
-import com.biryulindevelop.pokemonlib.data.remote.PokemonApi
-import com.biryulindevelop.pokemonlib.domain.dto.PokemonDto
-import com.biryulindevelop.pokemonlib.domain.dto.PokemonListDto
+import com.biryulindevelop.pokemonlib.domain.dto.pokemonDto.PokemonDto
+import com.biryulindevelop.pokemonlib.domain.dto.pokemonListDto.PokemonListDto
+import com.biryulindevelop.pokemonlib.domain.repository.PokemonRepository
 import com.biryulindevelop.pokemonlib.util.Resource
-import dagger.hilt.android.scopes.ActivityScoped
 import javax.inject.Inject
 
-@ActivityScoped
-class PokemonRepository @Inject constructor(
+class PokemonRepositoryImpl @Inject constructor(
     private val api: PokemonApi
-) {
+) : PokemonRepository {
 
-    suspend fun getPokemonList(limit: Int, offset: Int): Resource<PokemonListDto> {
+    override suspend fun getPokemonList(limit: Int, offset: Int): Resource<PokemonListDto> {
         val response = try {
             api.getPokemonList(limit, offset)
         } catch (e: Exception) {
@@ -21,7 +19,7 @@ class PokemonRepository @Inject constructor(
         return Resource.Success(response)
     }
 
-    suspend fun getPokemonInfo(pokemonName: String): Resource<PokemonDto> {
+    override suspend fun getPokemonInfo(pokemonName: String): Resource<PokemonDto> {
         val response = try {
             api.getPokemonInfo(pokemonName)
         } catch (e: Exception) {
