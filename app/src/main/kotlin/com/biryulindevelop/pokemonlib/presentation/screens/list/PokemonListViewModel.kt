@@ -3,7 +3,9 @@ package com.biryulindevelop.pokemonlib.presentation.screens.list
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,9 +13,7 @@ import androidx.palette.graphics.Palette
 import com.biryulindevelop.pokemonlib.domain.model.PokemonListEntry
 import com.biryulindevelop.pokemonlib.domain.repository.PokemonRepository
 import com.biryulindevelop.pokemonlib.util.Constants.PAGE_SIZE
-import com.biryulindevelop.pokemonlib.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,18 +24,18 @@ class PokemonListViewModel @Inject constructor(
 
     private var currentPage = 0
 
-    var pokemonList = mutableStateOf<List<PokemonListEntry>>(listOf())
+    var pokemonList by mutableStateOf<List<PokemonListEntry>>(emptyList())
         private set
-    var loadError = mutableStateOf("")
+    var loadError by mutableStateOf("")
         private set
-    var isLoading = mutableStateOf(false)
+    var isLoading by mutableStateOf(false)
         private set
-    var endReached = mutableStateOf(false)
+    var endReached by mutableStateOf(false)
         private set
 
     private var cachedPokemonList = listOf<PokemonListEntry>()
     private var isSearchStarting = true
-    var isSearching = mutableStateOf(false)
+    var isSearching by mutableStateOf(false)
         private set
 
     init {
@@ -44,14 +44,14 @@ class PokemonListViewModel @Inject constructor(
 
     fun searchPokemon(query: String) {
         val listToSearch = if (isSearchStarting) {
-            pokemonList.value
+            pokemonList
         } else {
             cachedPokemonList
         }
-        viewModelScope.launch(Dispatchers.Default) {
+        viewModelScope.launch {
             if (query.isEmpty()) {
-                pokemonList.value = cachedPokemonList
-                isSearching.value = false
+                pokemonList = cachedPokemonList
+                isSearching = false
                 isSearchStarting = true
                 return@launch
             }
@@ -62,51 +62,47 @@ class PokemonListViewModel @Inject constructor(
                 ) || it.id.toString() == query.trim()
             }
             if (isSearchStarting) {
-                cachedPokemonList = pokemonList.value
+                cachedPokemonList = pokemonList
                 isSearchStarting = false
             }
-            pokemonList.value = results
-            isSearching.value = true
-
+            pokemonList = results
+            isSearching = true
         }
     }
 
-
     fun loadPokemonPaged() {
         viewModelScope.launch {
-            isLoading.value = true
-            when (val result = repository.getPokemonList(PAGE_SIZE, currentPage * PAGE_SIZE)) {
-                is Resource.Success -> {
-                    val pokemonEntries = result.data?.results?.mapNotNull { entry ->
-                        try {
-                            val number = entry.url.getNumberFromUrl()
-                            val imageUrl = getImageUrlFromNumber(number)
-                            PokemonListEntry(
-                                pokemonName = entry.name.replaceFirstChar { it.uppercase() },
-                                imageUrl = imageUrl,
-                                id = number
-                            )
-                        } catch (e: Exception) {
-                            null
-                        }
-                    }
+            isLoading = true
+            val result = runCatching {
+                repository.getPokemonList(PAGE_SIZE, currentPage * PAGE_SIZE)
+            }
 
-                    pokemonEntries?.let {
-                        currentPage++
-                        loadError.value = ""
-                        isLoading.value = false
-                        pokemonList.value += it
+            result.onSuccess { response ->
+                val pokemonEntries: List<PokemonListEntry> = response.results.mapNotNull { entry ->
+                    try {
+                        val number = entry.url.getNumberFromUrl()
+                        val imageUrl = getImageUrlFromNumber(number)
+                        PokemonListEntry(
+                            pokemonName = entry.name.replaceFirstChar { it.uppercase() },
+                            imageUrl = imageUrl,
+                            id = number
+                        )
+                    } catch (e: Exception) {
+                        null
                     }
                 }
 
-                is Resource.Error -> {
-                    loadError.value = result.message.orEmpty()
-                    isLoading.value = false
+                pokemonEntries.let {
+                    currentPage++
+                    loadError = ""
+                    isLoading = false
+                    pokemonList += it
                 }
+            }
 
-                is Resource.Loading -> {
-                    isLoading.value = true
-                }
+            result.onFailure { error ->
+                loadError = error.message.orEmpty()
+                isLoading = false
             }
         }
     }
