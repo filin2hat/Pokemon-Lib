@@ -6,8 +6,8 @@ import com.biryulindevelop.pokemonlib.util.Resource
 
 interface PokemonRepository {
 
-    suspend fun getPokemonList(limit: Int, offset: Int): Resource<PokemonListDto>
+    suspend fun getPokemonList(limit: Int, offset: Int): Result<PokemonListDto>
 
-    suspend fun getPokemonInfo(pokemonName: String): Resource<PokemonDto>
+    suspend fun getPokemonInfo(pokemonName: String): Result<PokemonDto>
 }
 
