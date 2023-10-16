@@ -55,6 +55,7 @@ import com.biryulindevelop.pokemonlib.R
 import com.biryulindevelop.pokemonlib.domain.model.PokemonListEntry
 import com.biryulindevelop.pokemonlib.ui.theme.PokemonHollow
 import com.biryulindevelop.pokemonlib.ui.theme.PoketMonk
+import timber.log.Timber
 
 @Composable
 fun PokemonListScreen(
@@ -99,7 +100,10 @@ fun PokemonListScreen(
                     viewModel.searchPokemon(it)
                 }
             )
-            PokemonList(navController = navController)
+            PokemonList(
+                navController = navController,
+                viewModel = viewModel
+            )
         }
     }
 }
@@ -148,7 +152,7 @@ fun SearchBar(
 @Composable
 fun PokemonList(
     navController: NavController,
-    viewModel: PokemonListViewModel = hiltViewModel(),
+    viewModel: PokemonListViewModel
 ) {
     val pokemonList: List<PokemonListEntry> by remember { mutableStateOf(viewModel.pokemonList) }
     val isSearching: Boolean by remember { mutableStateOf(viewModel.isSearching) }
@@ -159,6 +163,7 @@ fun PokemonList(
     LazyColumn(
         contentPadding = PaddingValues(10.dp)
     ) {
+       // Timber.tag("TAG").d("pokemonList size in LazyColumn: ${pokemonList.size}")
         val itemCount = if (pokemonList.size % 2 == 0) {
             pokemonList.size / 2
         } else {
@@ -167,6 +172,7 @@ fun PokemonList(
         items(itemCount) {
             if (it >= itemCount - 1 && !isLoading && !isSearching) {
                 viewModel.loadPokemonPaged()
+                //Timber.tag("TAG").d("Load More in LazyColumn")
             }
             PokemonListRow(rowIndex = it, entries = pokemonList, navController = navController)
         }

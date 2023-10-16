@@ -93,9 +93,9 @@ class MainActivity : ComponentActivity() {
 }
 
 sealed class Screen(val route: String, val arguments: List<NamedNavArgument>) {
-    object PokemonSplash : Screen("pokemon_splash_screen", emptyList())
-    object PokemonList : Screen("pokemon_list_screen", emptyList())
-    object PokemonDetails : Screen(
+    data object PokemonSplash : Screen("pokemon_splash_screen", emptyList())
+    data object PokemonList : Screen("pokemon_list_screen", emptyList())
+    data object PokemonDetails : Screen(
         "pokemon_detail_screen/{dominantColor}/{pokemonName}",
         listOf(
             navArgument("dominantColor") { type = NavType.IntType },

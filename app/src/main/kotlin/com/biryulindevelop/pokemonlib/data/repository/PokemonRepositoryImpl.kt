@@ -5,8 +5,9 @@ import com.biryulindevelop.pokemonlib.domain.dto.pokemonListDto.PokemonListDto
 import com.biryulindevelop.pokemonlib.domain.repository.PokemonRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class PokemonRepositoryImpl(
+class PokemonRepositoryImpl @Inject constructor(
     private val api: PokemonApi
 ) : PokemonRepository {
 

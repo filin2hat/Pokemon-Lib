@@ -48,7 +48,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.data.EmptyGroup.data
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -76,67 +75,67 @@ fun PokemonDetailsScreen(
     pokemonImageSize: Dp = 250.dp,
     viewModel: PokemonDetailsViewModel = hiltViewModel()
 ) {
-    val pokemonInfo = produceState<Resource<PokemonDto>>(initialValue = Resource.Loading()) {
-        value = viewModel.getPokemonInfo(pokemonName)
-    }.value
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(dominantColor)
-            .verticalScroll(rememberScrollState())
-    )
-    {
-        PokemonDetailTopSection(
-            navController = navController,
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.2f)
-                .align(Alignment.TopCenter),
-            pokemonInfo = pokemonInfo
-        )
-
-        PokemonDetailStateWrapper(
-            pokemonInfo = pokemonInfo,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(
-                    start = 16.dp,
-                    end = 16.dp,
-                    bottom = 16.dp
-                )
-                .shadow(10.dp, RoundedCornerShape(10.dp))
-                .clip(RoundedCornerShape(10.dp))
-                .background(MaterialTheme.colorScheme.surface)
-                .align(Alignment.BottomCenter),
-
-            loadingModifier = Modifier
-                .size(100.dp)
-                .align(Alignment.Center)
-                .padding(
-                    top = topPadding + pokemonImageSize,
-                    start = 16.dp,
-                    end = 16.dp,
-                    bottom = 16.dp
-                )
-        )
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .offset(y = 60.dp),
-            contentAlignment = Alignment.BottomCenter
-        ) {
-            if (pokemonInfo is Resource.Success) {
-                pokemonInfo.data?.sprites?.other?.officialArtwork?.frontDefault.let {
-                    AsyncImage(
-                        model = it,
-                        contentDescription = pokemonInfo.data?.name,
-                        contentScale = ContentScale.FillHeight
-                    )
-                }
-            }
-        }
-    }
-
+//    val pokemonInfo = produceState<Resource<PokemonDto>>(initialValue = Resource.Loading()) {
+//        value = viewModel.getPokemonInfo(pokemonName)
+//    }.value
+//    Box(
+//        modifier = Modifier
+//            .fillMaxSize()
+//            .background(dominantColor)
+//            .verticalScroll(rememberScrollState())
+//    )
+//    {
+//        PokemonDetailTopSection(
+//            navController = navController,
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .fillMaxHeight(0.2f)
+//                .align(Alignment.TopCenter),
+//            pokemonInfo = pokemonInfo
+//        )
+//
+//        PokemonDetailStateWrapper(
+//            pokemonInfo = pokemonInfo,
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .padding(
+//                    start = 16.dp,
+//                    end = 16.dp,
+//                    bottom = 16.dp
+//                )
+//                .shadow(10.dp, RoundedCornerShape(10.dp))
+//                .clip(RoundedCornerShape(10.dp))
+//                .background(MaterialTheme.colorScheme.surface)
+//                .align(Alignment.BottomCenter),
+//
+//            loadingModifier = Modifier
+//                .size(100.dp)
+//                .align(Alignment.Center)
+//                .padding(
+//                    top = topPadding + pokemonImageSize,
+//                    start = 16.dp,
+//                    end = 16.dp,
+//                    bottom = 16.dp
+//                )
+//        )
+//        Box(
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .offset(y = 60.dp),
+//            contentAlignment = Alignment.BottomCenter
+//        ) {
+//            if (pokemonInfo is Resource.Success) {
+//                pokemonInfo.data?.sprites?.other?.officialArtwork?.frontDefault.let {
+//                    AsyncImage(
+//                        model = it,
+//                        contentDescription = pokemonInfo.data?.name,
+//                        contentScale = ContentScale.FillHeight
+//                    )
+//                }
+//            }
+//        }
+//    }
+//
 
 }
 
@@ -146,84 +145,84 @@ fun PokemonDetailTopSection(
     navController: NavController,
     modifier: Modifier
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(
-                Brush.verticalGradient(
-                    listOf(
-                        Color.Black,
-                        Color.Transparent
-                    )
-                )
-            ),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Icon(
-            imageVector = Icons.Default.ArrowBack,
-            contentDescription = stringResource(R.string.button_back),
-            tint = Color.White,
-            modifier = Modifier
-                .size(40.dp)
-                .offset(x = 16.dp, y = 28.dp)
-                .clickable { navController.popBackStack() }
-        )
-        Row(
-            modifier = Modifier
-                .padding(28.dp)
-        ) {
-            Text(
-                text = "#",
-                fontSize = 42.sp,
-                color = Color.White
-            )
-            Text(
-                text = pokemonInfo.getOrNull().data?.id?.toString() ?: "",
-                fontSize = 48.sp,
-                color = Color.White
-            )
-        }
-    }
+//    Row(
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .background(
+//                Brush.verticalGradient(
+//                    listOf(
+//                        Color.Black,
+//                        Color.Transparent
+//                    )
+//                )
+//            ),
+//        horizontalArrangement = Arrangement.SpaceBetween
+//    ) {
+//        Icon(
+//            imageVector = Icons.Default.ArrowBack,
+//            contentDescription = stringResource(R.string.button_back),
+//            tint = Color.White,
+//            modifier = Modifier
+//                .size(40.dp)
+//                .offset(x = 16.dp, y = 28.dp)
+//                .clickable { navController.popBackStack() }
+//        )
+//        Row(
+//            modifier = Modifier
+//                .padding(28.dp)
+//        ) {
+//            Text(
+//                text = "#",
+//                fontSize = 42.sp,
+//                color = Color.White
+//            )
+//            Text(
+//                text = pokemonInfo.getOrNull().data?.id?.toString() ?: "",
+//                fontSize = 48.sp,
+//                color = Color.White
+//            )
+//        }
+//    }
 }
 
-@Composable
-fun PokemonDetailStateWrapper(
-    pokemonInfo: Resource<PokemonDto>,
-    modifier: Modifier = Modifier,
-    loadingModifier: Modifier = Modifier
-) {
-    when (pokemonInfo) {
-        is Resource.Success -> {
-            pokemonInfo.data?.let {
-                PokemonDetailSelection(
-                    pokemonInfo = it,
-                    modifier = modifier
-                )
-            }
-        }
-
-        is Resource.Error -> {
-            pokemonInfo.message?.let {
-                Text(
-                    text = it,
-                    color = Color.Red,
-                    fontSize = 18.sp,
-                    textAlign = TextAlign.Center,
-                    fontFamily = PoketMonk,
-                    modifier = modifier
-                        .padding(horizontal = 16.dp)
-                )
-            }
-        }
-
-        is Resource.Loading -> {
-            CircularProgressIndicator(
-                color = MaterialTheme.colorScheme.primary,
-                modifier = loadingModifier
-            )
-        }
-    }
-}
+//@Composable
+//fun PokemonDetailStateWrapper(
+//    pokemonInfo: Resource<PokemonDto>,
+//    modifier: Modifier = Modifier,
+//    loadingModifier: Modifier = Modifier
+//) {
+//    when (pokemonInfo) {
+//        is Resource.Success -> {
+//            pokemonInfo.data?.let {
+//                PokemonDetailSelection(
+//                    pokemonInfo = it,
+//                    modifier = modifier
+//                )
+//            }
+//        }
+//
+//        is Resource.Error -> {
+//            pokemonInfo.message?.let {
+//                Text(
+//                    text = it,
+//                    color = Color.Red,
+//                    fontSize = 18.sp,
+//                    textAlign = TextAlign.Center,
+//                    fontFamily = PoketMonk,
+//                    modifier = modifier
+//                        .padding(horizontal = 16.dp)
+//                )
+//            }
+//        }
+//
+//        is Resource.Loading -> {
+//            CircularProgressIndicator(
+//                color = MaterialTheme.colorScheme.primary,
+//                modifier = loadingModifier
+//            )
+//        }
+//    }
+//}
 
 @Composable
 fun PokemonDetailSelection(
