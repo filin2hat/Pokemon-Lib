@@ -48,6 +48,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.data.EmptyGroup.data
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -59,7 +60,6 @@ import com.biryulindevelop.pokemonlib.domain.dto.pokemonDto.PokemonDto
 import com.biryulindevelop.pokemonlib.domain.dto.pokemonDto.TypeDto
 import com.biryulindevelop.pokemonlib.ui.theme.PokemonSolid
 import com.biryulindevelop.pokemonlib.ui.theme.PoketMonk
-import com.biryulindevelop.pokemonlib.util.Resource
 import com.biryulindevelop.pokemonlib.util.changeTypeName
 import com.biryulindevelop.pokemonlib.util.parseStatColor
 import com.biryulindevelop.pokemonlib.util.parseStatToAbbr
@@ -142,7 +142,7 @@ fun PokemonDetailsScreen(
 
 @Composable
 fun PokemonDetailTopSection(
-    pokemonInfo: Resource<PokemonDto>,
+    pokemonInfo: Result<PokemonDto>,
     navController: NavController,
     modifier: Modifier
 ) {
@@ -178,7 +178,7 @@ fun PokemonDetailTopSection(
                 color = Color.White
             )
             Text(
-                text = pokemonInfo.data?.id?.toString() ?: "",
+                text = pokemonInfo.getOrNull().data?.id?.toString() ?: "",
                 fontSize = 48.sp,
                 color = Color.White
             )

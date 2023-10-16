@@ -29,9 +29,6 @@ class PokemonListViewModel @Inject constructor(
     var loadError by mutableStateOf("")
         private set
     var isLoading by mutableStateOf(false)
-        private set
-    var endReached by mutableStateOf(false)
-        private set
 
     private var cachedPokemonList = listOf<PokemonListEntry>()
     private var isSearchStarting = true
@@ -76,23 +73,23 @@ class PokemonListViewModel @Inject constructor(
             val result = runCatching {
                 repository.getPokemonList(PAGE_SIZE, currentPage * PAGE_SIZE)
             }
-
             result.onSuccess { response ->
-                val pokemonEntries: List<PokemonListEntry> = response.results.mapNotNull { entry ->
-                    try {
-                        val number = entry.url.getNumberFromUrl()
-                        val imageUrl = getImageUrlFromNumber(number)
-                        PokemonListEntry(
-                            pokemonName = entry.name.replaceFirstChar { it.uppercase() },
-                            imageUrl = imageUrl,
-                            id = number
-                        )
-                    } catch (e: Exception) {
-                        null
-                    }
-                }
+                val pokemonEntries: List<PokemonListEntry?> =
+                    response.getOrNull()?.results?.map { entry ->
+                        try {
+                            val number = entry.url.getNumberFromUrl()
+                            val imageUrl = getImageUrlFromNumber(number)
+                            PokemonListEntry(
+                                pokemonName = entry.name.replaceFirstChar { it.uppercase() },
+                                imageUrl = imageUrl,
+                                id = number
+                            )
+                        } catch (e: Exception) {
+                            null
+                        }
+                    } ?: emptyList()
 
-                pokemonEntries.let {
+                pokemonEntries.filterNotNull().let {
                     currentPage++
                     loadError = ""
                     isLoading = false

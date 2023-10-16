@@ -150,11 +150,10 @@ fun PokemonList(
     navController: NavController,
     viewModel: PokemonListViewModel = hiltViewModel(),
 ) {
-    val pokemonList by remember { viewModel.pokemonList }
-    val endReached by remember { viewModel.endReached }
-    val loadError by remember { viewModel.loadError }
-    val isLoading by remember { viewModel.isLoading }
-    val isSearching by remember { viewModel.isSearching }
+    val pokemonList: List<PokemonListEntry> by remember { mutableStateOf(viewModel.pokemonList) }
+    val isSearching: Boolean by remember { mutableStateOf(viewModel.isSearching) }
+    val loadError: String? by remember { mutableStateOf(viewModel.loadError) }
+    val isLoading: Boolean by remember { mutableStateOf(viewModel.isLoading) }
 
 
     LazyColumn(
@@ -166,7 +165,7 @@ fun PokemonList(
             pokemonList.size / 2 + 1
         }
         items(itemCount) {
-            if (it >= itemCount - 1 && !endReached && !isLoading && !isSearching) {
+            if (it >= itemCount - 1 && !isLoading && !isSearching) {
                 viewModel.loadPokemonPaged()
             }
             PokemonListRow(rowIndex = it, entries = pokemonList, navController = navController)
@@ -179,9 +178,11 @@ fun PokemonList(
         if (isLoading) {
             CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
         }
-        if (loadError.isNotEmpty()) {
-            RetryLoading(error = loadError) {
-                viewModel.loadPokemonPaged()
+        if (loadError?.isNotEmpty() == true) {
+            loadError?.let {
+                RetryLoading(error = it) {
+                    viewModel.loadPokemonPaged()
+                }
             }
         }
     }

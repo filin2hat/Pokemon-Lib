@@ -2,7 +2,6 @@ package com.biryulindevelop.pokemonlib.domain.repository
 
 import com.biryulindevelop.pokemonlib.domain.dto.pokemonDto.PokemonDto
 import com.biryulindevelop.pokemonlib.domain.dto.pokemonListDto.PokemonListDto
-import com.biryulindevelop.pokemonlib.util.Resource
 
 interface PokemonRepository {
 
