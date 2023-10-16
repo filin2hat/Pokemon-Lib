@@ -29,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -55,6 +56,7 @@ import com.biryulindevelop.pokemonlib.R
 import com.biryulindevelop.pokemonlib.domain.model.PokemonListEntry
 import com.biryulindevelop.pokemonlib.ui.theme.PokemonHollow
 import com.biryulindevelop.pokemonlib.ui.theme.PoketMonk
+import com.biryulindevelop.pokemonlib.util.calcDominantColor
 
 @Composable
 fun PokemonListScreen(
@@ -153,19 +155,12 @@ fun PokemonList(
     navController: NavController,
     viewModel: PokemonListViewModel
 ) {
-    val pokemonList = viewModel.pokemonList
-    val isSearching = viewModel.isSearching
-    val loadError = viewModel.loadError
-    val isLoading: Boolean = viewModel.isLoading
+    val pokemonList by rememberUpdatedState(viewModel.pokemonList)
+    val isSearching by rememberUpdatedState(viewModel.isSearching)
+    val loadError by rememberUpdatedState(viewModel.loadError)
+    val isLoading: Boolean by rememberUpdatedState(viewModel.isLoading)
 
-//    val pokemonList by remember { viewModel.pokemonList }
-//    val endReached by remember { viewModel.endReached }
-//    val loadError by remember { viewModel.loadError }
-//    val isLoading by remember { viewModel.isLoading }
-//    val isSearching by remember { viewModel.isSearching
-
-
-        LazyColumn(
+    LazyColumn(
         contentPadding = PaddingValues(10.dp)
     ) {
         val itemCount = if (pokemonList.size % 2 == 0) {
@@ -199,8 +194,7 @@ fun PokemonList(
 fun PokemonLibEntry(
     entry: PokemonListEntry,
     navController: NavController,
-    modifier: Modifier = Modifier,
-    viewModel: PokemonListViewModel = hiltViewModel()
+    modifier: Modifier = Modifier
 ) {
     val defaultDominantColor = MaterialTheme.colorScheme.surface
     var dominantColor by remember {
@@ -235,7 +229,7 @@ fun PokemonLibEntry(
                     .apply(block = fun ImageRequest.Builder.() {
                         listener(
                             onSuccess = { _, result ->
-                                viewModel.calcDominantColor(result.drawable) { color ->
+                                calcDominantColor(result.drawable) { color ->
                                     dominantColor = color
                                 }
                             }
