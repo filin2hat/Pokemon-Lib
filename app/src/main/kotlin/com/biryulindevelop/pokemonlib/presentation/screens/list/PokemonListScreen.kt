@@ -55,7 +55,6 @@ import com.biryulindevelop.pokemonlib.R
 import com.biryulindevelop.pokemonlib.domain.model.PokemonListEntry
 import com.biryulindevelop.pokemonlib.ui.theme.PokemonHollow
 import com.biryulindevelop.pokemonlib.ui.theme.PoketMonk
-import timber.log.Timber
 
 @Composable
 fun PokemonListScreen(
@@ -154,16 +153,20 @@ fun PokemonList(
     navController: NavController,
     viewModel: PokemonListViewModel
 ) {
-    val pokemonList: List<PokemonListEntry> by remember { mutableStateOf(viewModel.pokemonList) }
-    val isSearching: Boolean by remember { mutableStateOf(viewModel.isSearching) }
-    val loadError: String? by remember { mutableStateOf(viewModel.loadError) }
-    val isLoading: Boolean by remember { mutableStateOf(viewModel.isLoading) }
+    val pokemonList = viewModel.pokemonList
+    val isSearching = viewModel.isSearching
+    val loadError = viewModel.loadError
+    val isLoading: Boolean = viewModel.isLoading
 
+//    val pokemonList by remember { viewModel.pokemonList }
+//    val endReached by remember { viewModel.endReached }
+//    val loadError by remember { viewModel.loadError }
+//    val isLoading by remember { viewModel.isLoading }
+//    val isSearching by remember { viewModel.isSearching
 
-    LazyColumn(
+        LazyColumn(
         contentPadding = PaddingValues(10.dp)
     ) {
-       // Timber.tag("TAG").d("pokemonList size in LazyColumn: ${pokemonList.size}")
         val itemCount = if (pokemonList.size % 2 == 0) {
             pokemonList.size / 2
         } else {
@@ -172,7 +175,6 @@ fun PokemonList(
         items(itemCount) {
             if (it >= itemCount - 1 && !isLoading && !isSearching) {
                 viewModel.loadPokemonPaged()
-                //Timber.tag("TAG").d("Load More in LazyColumn")
             }
             PokemonListRow(rowIndex = it, entries = pokemonList, navController = navController)
         }
@@ -184,11 +186,9 @@ fun PokemonList(
         if (isLoading) {
             CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
         }
-        if (loadError?.isNotEmpty() == true) {
-            loadError?.let {
-                RetryLoading(error = it) {
-                    viewModel.loadPokemonPaged()
-                }
+        if (loadError.isNotEmpty()) {
+            RetryLoading(error = loadError) {
+                viewModel.loadPokemonPaged()
             }
         }
     }
