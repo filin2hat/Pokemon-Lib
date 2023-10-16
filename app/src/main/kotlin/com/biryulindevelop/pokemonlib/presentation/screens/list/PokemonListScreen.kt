@@ -164,6 +164,7 @@ fun PokemonList(
 //    val isLoading by remember { viewModel.isLoading }
 //    val isSearching by remember { viewModel.isSearching
 
+
         LazyColumn(
         contentPadding = PaddingValues(10.dp)
     ) {
