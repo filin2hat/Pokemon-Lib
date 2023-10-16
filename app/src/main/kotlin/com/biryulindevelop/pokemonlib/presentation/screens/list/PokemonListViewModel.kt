@@ -15,7 +15,6 @@ import com.biryulindevelop.pokemonlib.domain.repository.PokemonRepository
 import com.biryulindevelop.pokemonlib.util.Constants.PAGE_SIZE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,6 +31,7 @@ class PokemonListViewModel @Inject constructor(
     var isLoading by mutableStateOf(false)
         private set
     private var cachedPokemonList = listOf<PokemonListEntry>()
+
     private var isSearchStarting = true
     var isSearching by mutableStateOf(false)
         private set
@@ -95,9 +95,7 @@ class PokemonListViewModel @Inject constructor(
                     loadError = ""
                     isLoading = false
                     pokemonList += loadedList
-                    //Timber.tag("TAG").d("loadPokemonPaged: %s", loadedList)
                 }
-                //Timber.tag("TAG").d("loadPokemonPaged: %s", pokemonList)
             }
 
             result.onFailure { error ->
