@@ -56,6 +56,7 @@ import com.biryulindevelop.pokemonlib.R
 import com.biryulindevelop.pokemonlib.domain.model.PokemonListEntry
 import com.biryulindevelop.pokemonlib.ui.theme.PokemonHollow
 import com.biryulindevelop.pokemonlib.ui.theme.PoketMonk
+import com.biryulindevelop.pokemonlib.util.Constants.EMPTY_STRING
 import com.biryulindevelop.pokemonlib.util.calcDominantColor
 
 @Composable
@@ -112,14 +113,14 @@ fun PokemonListScreen(
 @Composable
 fun SearchBar(
     modifier: Modifier = Modifier,
-    hint: String = "",
+    hint: String = EMPTY_STRING,
     onSearch: (String) -> Unit
 ) {
     var text by remember {
-        mutableStateOf("")
+        mutableStateOf(EMPTY_STRING)
     }
     var isHintDisplayed by remember {
-        mutableStateOf(hint != "")
+        mutableStateOf(hint != EMPTY_STRING)
     }
     Box(modifier = modifier) {
         BasicTextField(

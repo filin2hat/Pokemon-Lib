@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.biryulindevelop.pokemonlib.domain.model.PokemonListEntry
 import com.biryulindevelop.pokemonlib.domain.repository.PokemonRepository
+import com.biryulindevelop.pokemonlib.util.Constants.EMPTY_STRING
 import com.biryulindevelop.pokemonlib.util.Constants.PAGE_SIZE
 import com.biryulindevelop.pokemonlib.util.getImageUrlFromNumber
 import com.biryulindevelop.pokemonlib.util.getNumberFromUrl
@@ -23,7 +24,7 @@ class PokemonListViewModel @Inject constructor(
 
     var pokemonList by mutableStateOf<List<PokemonListEntry>>(emptyList())
         private set
-    var loadError by mutableStateOf("")
+    var loadError by mutableStateOf(EMPTY_STRING)
         private set
     var isLoading by mutableStateOf(false)
         private set
@@ -91,7 +92,7 @@ class PokemonListViewModel @Inject constructor(
 
                 pokemonEntries.filterNotNull().let { loadedList ->
                     currentPage++
-                    loadError = ""
+                    loadError = EMPTY_STRING
                     isLoading = false
                     pokemonList += loadedList
                 }

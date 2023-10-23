@@ -58,6 +58,7 @@ import com.biryulindevelop.pokemonlib.domain.dto.pokemonDto.PokemonDto
 import com.biryulindevelop.pokemonlib.domain.dto.pokemonDto.TypeDto
 import com.biryulindevelop.pokemonlib.ui.theme.PokemonSolid
 import com.biryulindevelop.pokemonlib.ui.theme.PoketMonk
+import com.biryulindevelop.pokemonlib.util.Constants.EMPTY_STRING
 import com.biryulindevelop.pokemonlib.util.changeTypeName
 import com.biryulindevelop.pokemonlib.util.parseStatColor
 import com.biryulindevelop.pokemonlib.util.parseStatToAbbr
@@ -172,7 +173,7 @@ fun PokemonDetailTopSection(
                 color = Color.White
             )
             Text(
-                text = pokemonInfo?.id?.toString() ?: "",
+                text = pokemonInfo?.id?.toString().orEmpty(),
                 fontSize = 48.sp,
                 color = Color.White
             )
@@ -362,7 +363,7 @@ fun PokemonStat(
         animationSpec = tween(
             animDuration,
             animDelay
-        ), label = ""
+        ), label = EMPTY_STRING
     )
 
     LaunchedEffect(key1 = true) {

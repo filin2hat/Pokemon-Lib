@@ -32,6 +32,7 @@ import com.biryulindevelop.pokemonlib.ui.theme.TypePsychic
 import com.biryulindevelop.pokemonlib.ui.theme.TypeRock
 import com.biryulindevelop.pokemonlib.ui.theme.TypeSteel
 import com.biryulindevelop.pokemonlib.ui.theme.TypeWater
+import com.biryulindevelop.pokemonlib.util.Constants.EMPTY_STRING
 
 fun parseTypeToColor(type: TypeDto): Color {
     return when (type.type.name.lowercase()) {
@@ -79,7 +80,7 @@ fun changeTypeName(type: TypeDto, context: Context): String {
         PokemonType.STEEL.name.lowercase() -> context.getString(R.string.steel)
         PokemonType.FAIRY.name.lowercase() -> context.getString(R.string.fairy)
         PokemonType.PRESSURE.name.lowercase() -> context.getString(R.string.pressure)
-        else -> context.getString(R.string.unknown)
+        else -> EMPTY_STRING
     }
 }
 
@@ -103,6 +104,6 @@ fun parseStatToAbbr(stat: StatDto, context: Context): String {
         PokemonStats.`SPECIAL-ATTACK`.name.lowercase() -> context.getString(R.string.spatk)
         PokemonStats.`SPECIAL-DEFENSE`.name.lowercase() -> context.getString(R.string.spdef)
         PokemonStats.SPEED.name.lowercase() -> context.getString(R.string.spd)
-        else -> ""
+        else -> EMPTY_STRING
     }
 }
