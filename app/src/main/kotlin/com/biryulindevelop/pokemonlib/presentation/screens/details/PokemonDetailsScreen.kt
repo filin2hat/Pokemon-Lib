@@ -79,8 +79,8 @@ fun PokemonDetailsScreen(
     viewModel.loadPokemonInfo(pokemonName)
 
     val pokemonInfo by rememberUpdatedState(viewModel.pokemonInfo)
-    val errorInfo by rememberUpdatedState ( viewModel.errorInfo )
-    val isLoading by rememberUpdatedState ( viewModel.isLoading )
+    val errorInfo by rememberUpdatedState(viewModel.errorInfo)
+    val isLoading by rememberUpdatedState(viewModel.isLoading)
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -88,47 +88,47 @@ fun PokemonDetailsScreen(
             .verticalScroll(rememberScrollState())
     )
     {
-            pokemonInfo.value?.let { pokemonDto ->
+        pokemonInfo.value?.let { item ->
 
-                PokemonDetailTopSection(
-                    pokemonInfo = pokemonDto,
-                    navController = navController
-                )
+            PokemonDetailTopSection(
+                pokemonInfo = item,
+                navController = navController
+            )
 
-                PokemonDetailStateWrapper(
-                    pokemonInfo = pokemonDto,
-                    errorInfo = errorInfo.value,
-                    isLoading = isLoading.value,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(
-                            start = 16.dp,
-                            end = 16.dp,
-                            bottom = 16.dp
-                        )
-                        .shadow(10.dp, RoundedCornerShape(10.dp))
-                        .clip(RoundedCornerShape(10.dp))
-                        .background(MaterialTheme.colorScheme.surface)
-                        .align(Alignment.BottomCenter),
+            PokemonDetailStateWrapper(
+                pokemonInfo = item,
+                errorInfo = errorInfo.value,
+                isLoading = isLoading.value,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(
+                        start = 16.dp,
+                        end = 16.dp,
+                        bottom = 16.dp
+                    )
+                    .shadow(10.dp, RoundedCornerShape(10.dp))
+                    .clip(RoundedCornerShape(10.dp))
+                    .background(MaterialTheme.colorScheme.surface)
+                    .align(Alignment.BottomCenter),
 
-                    loadingModifier = Modifier
-                        .size(100.dp)
-                        .align(Alignment.Center)
-                        .padding(
-                            top = topPadding + pokemonImageSize,
-                            start = 16.dp,
-                            end = 16.dp,
-                            bottom = 16.dp
-                        )
-                )
-            }
+                loadingModifier = Modifier
+                    .size(100.dp)
+                    .align(Alignment.Center)
+                    .padding(
+                        top = topPadding + pokemonImageSize,
+                        start = 16.dp,
+                        end = 16.dp,
+                        bottom = 16.dp
+                    )
+            )
+        }
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .offset(y = 60.dp),
             contentAlignment = Alignment.BottomCenter
         ) {
-            pokemonInfo?.value?.sprites?.other?.officialArtwork?.frontDefault?.let {
+            pokemonInfo.value?.sprites?.other?.officialArtwork?.frontDefault?.let {
                 AsyncImage(
                     model = it,
                     contentDescription = pokemonInfo.value?.name,
@@ -188,7 +188,7 @@ fun PokemonDetailTopSection(
 fun PokemonDetailStateWrapper(
     pokemonInfo: PokemonDto,
     modifier: Modifier = Modifier,
-    errorInfo: String?,
+    errorInfo: String,
     isLoading: Boolean,
     loadingModifier: Modifier = Modifier
 ) {
@@ -203,17 +203,15 @@ fun PokemonDetailStateWrapper(
         pokemonInfo = pokemonInfo,
         modifier = modifier
     )
-    errorInfo?.let { error ->
-        Text(
-            text = error,
-            color = Color.Red,
-            fontSize = 18.sp,
-            textAlign = TextAlign.Center,
-            fontFamily = PoketMonk,
-            modifier = modifier
-                .padding(horizontal = 16.dp)
-        )
-    }
+    Text(
+        text = errorInfo,
+        color = Color.Red,
+        fontSize = 18.sp,
+        textAlign = TextAlign.Center,
+        fontFamily = PoketMonk,
+        modifier = modifier
+            .padding(horizontal = 16.dp)
+    )
 }
 
 @Composable
@@ -237,11 +235,13 @@ fun PokemonDetailSelection(
             color = MaterialTheme.colorScheme.onSurface
         )
         PokemonTypeSection(types = pokemonInfo.types)
+
         PokemonDetailDataSection(
             pokemonWeight = pokemonInfo.weight,
             pokemonHeight = pokemonInfo.height
         )
         PokemonBaseStats(pokemonInfo = pokemonInfo)
+
         Spacer(modifier = Modifier.height(15.dp))
     }
 }
