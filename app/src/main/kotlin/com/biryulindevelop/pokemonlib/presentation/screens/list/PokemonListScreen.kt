@@ -57,6 +57,8 @@ import com.biryulindevelop.pokemonlib.domain.model.PokemonListEntry
 import com.biryulindevelop.pokemonlib.ui.theme.PokemonHollow
 import com.biryulindevelop.pokemonlib.ui.theme.PoketMonk
 import com.biryulindevelop.pokemonlib.util.Constants.EMPTY_STRING
+import com.biryulindevelop.pokemonlib.util.Constants.LIST_WIDTH
+import com.biryulindevelop.pokemonlib.util.Constants.SEARCH_BAR_MAX_LINES
 import com.biryulindevelop.pokemonlib.util.calcDominantColor
 
 @Composable
@@ -129,7 +131,7 @@ fun SearchBar(
                 text = it
                 onSearch(it)
             },
-            maxLines = 1,
+            maxLines = SEARCH_BAR_MAX_LINES,
             singleLine = true,
             textStyle = TextStyle(color = Color.Black),
             modifier = Modifier
@@ -164,10 +166,10 @@ fun PokemonList(
     LazyColumn(
         contentPadding = PaddingValues(10.dp)
     ) {
-        val itemCount = if (pokemonList.size % 2 == 0) {
-            pokemonList.size / 2
+        val itemCount = if (pokemonList.size % LIST_WIDTH == 0) {
+            pokemonList.size / LIST_WIDTH
         } else {
-            pokemonList.size / 2 + 1
+            pokemonList.size / LIST_WIDTH + 1
         }
         items(itemCount) {
             if (it >= itemCount - 1 && !isLoading && !isSearching) {
@@ -271,14 +273,14 @@ fun PokemonListRow(
     Column {
         Row {
             PokemonLibEntry(
-                entry = entries[rowIndex * 2],
+                entry = entries[rowIndex * LIST_WIDTH],
                 navController = navController,
                 modifier = Modifier.weight(1f)
             )
             Spacer(modifier = Modifier.width(10.dp))
-            if (entries.size >= rowIndex * 2 + 2) {
+            if (entries.size >= rowIndex * LIST_WIDTH + LIST_WIDTH) {
                 PokemonLibEntry(
-                    entry = entries[rowIndex * 2 + 1],
+                    entry = entries[rowIndex * LIST_WIDTH + 1],
                     navController = navController,
                     modifier = Modifier.weight(1f)
                 )

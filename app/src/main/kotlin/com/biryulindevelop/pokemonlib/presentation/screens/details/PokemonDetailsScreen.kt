@@ -57,9 +57,15 @@ import coil.compose.AsyncImage
 import com.biryulindevelop.pokemonlib.R
 import com.biryulindevelop.pokemonlib.domain.dto.pokemonDto.PokemonDto
 import com.biryulindevelop.pokemonlib.domain.dto.pokemonDto.TypeDto
+import com.biryulindevelop.pokemonlib.ui.theme.BackgroundColor
 import com.biryulindevelop.pokemonlib.ui.theme.PokemonSolid
 import com.biryulindevelop.pokemonlib.ui.theme.PoketMonk
+import com.biryulindevelop.pokemonlib.util.Constants.ANIMATE_DELAY_PER_ITEM
+import com.biryulindevelop.pokemonlib.util.Constants.ANIMATION_DEACCELERATION
+import com.biryulindevelop.pokemonlib.util.Constants.ANIMATION_SPEED
+import com.biryulindevelop.pokemonlib.util.Constants.DIVISOR_1000
 import com.biryulindevelop.pokemonlib.util.Constants.EMPTY_STRING
+import com.biryulindevelop.pokemonlib.util.Constants.MULTIPLIER_100
 import com.biryulindevelop.pokemonlib.util.changeTypeName
 import com.biryulindevelop.pokemonlib.util.parseStatColor
 import com.biryulindevelop.pokemonlib.util.parseStatToAbbr
@@ -286,10 +292,10 @@ fun PokemonDetailDataSection(
     sectionHeight: Dp = 80.dp
 ) {
     val pokemonWeightInKg = remember {
-        round(pokemonWeight * 100f) / 1000f
+        round(pokemonWeight * MULTIPLIER_100) / DIVISOR_1000
     }
     val pokemonHeightInMeters = remember {
-        round(pokemonHeight * 100f) / 1000f
+        round(pokemonHeight * MULTIPLIER_100) / DIVISOR_1000
     }
     Row(
         modifier = Modifier
@@ -297,7 +303,7 @@ fun PokemonDetailDataSection(
     ) {
         PokemonDetailDataItem(
             dataValue = pokemonWeightInKg,
-            dataUnit = "kg",
+            dataUnit = stringResource(R.string.kg),
             dataIcon = painterResource(id = R.drawable.ic_weight),
             modifier = Modifier.weight(1f)
         )
@@ -374,7 +380,7 @@ fun PokemonStat(
             .clip(CircleShape)
             .background(
                 if (isSystemInDarkTheme()) {
-                    Color(0xFF505050)
+                    BackgroundColor
                 } else {
                     Color.LightGray
                 }
@@ -409,7 +415,7 @@ fun PokemonStat(
 @Composable
 fun PokemonBaseStats(
     pokemonInfo: PokemonDto,
-    animDelayPerItem: Int = 100
+    animDelayPerItem: Int = ANIMATE_DELAY_PER_ITEM
 ) {
     val maxBaseStat = remember {
         pokemonInfo.stats.maxOf { it.baseStat }
@@ -435,7 +441,7 @@ fun PokemonBaseStats(
                 statMaxValue = maxBaseStat,
                 statColor = parseStatColor(stat),
                 animDelay = i * animDelayPerItem,
-                animDuration = 800 + (i * 300)
+                animDuration = ANIMATION_SPEED + (i * ANIMATION_DEACCELERATION)
             )
             Spacer(modifier = Modifier.height(8.dp))
         }

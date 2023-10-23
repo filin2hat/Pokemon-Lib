@@ -74,34 +74,35 @@ class PokemonListViewModel @Inject constructor(
                 repository.getPokemonList(PAGE_SIZE, currentPage * PAGE_SIZE)
             }
 
-            result.onSuccess { response ->
-                val pokemonEntries: List<PokemonListEntry?> =
-                    response.getOrNull()?.results?.map { entry ->
-                        try {
-                            val number = entry.url.getNumberFromUrl()
-                            val imageUrl = getImageUrlFromNumber(number)
-                            PokemonListEntry(
-                                pokemonName = entry.name.replaceFirstChar { it.uppercase() },
-                                imageUrl = imageUrl,
-                                id = number
-                            )
-                        } catch (e: Exception) {
-                            null
-                        }
-                    } ?: emptyList()
+            result.fold(
+                onSuccess = { response ->
+                    val pokemonEntries: List<PokemonListEntry?> =
+                        response.getOrNull()?.results?.map { entry ->
+                            try {
+                                val number = entry.url.getNumberFromUrl()
+                                val imageUrl = getImageUrlFromNumber(number)
+                                PokemonListEntry(
+                                    pokemonName = entry.name.replaceFirstChar { it.uppercase() },
+                                    imageUrl = imageUrl,
+                                    id = number
+                                )
+                            } catch (e: Exception) {
+                                null
+                            }
+                        } ?: emptyList()
 
-                pokemonEntries.filterNotNull().let { loadedList ->
-                    currentPage++
-                    loadError = EMPTY_STRING
+                    pokemonEntries.filterNotNull().let { loadedList ->
+                        currentPage++
+                        loadError = EMPTY_STRING
+                        isLoading = false
+                        pokemonList += loadedList
+                    }
+                },
+                onFailure = { error ->
+                    loadError = error.message.orEmpty()
                     isLoading = false
-                    pokemonList += loadedList
                 }
-            }
-
-            result.onFailure { error ->
-                loadError = error.message.orEmpty()
-                isLoading = false
-            }
+            )
         }
     }
 }
