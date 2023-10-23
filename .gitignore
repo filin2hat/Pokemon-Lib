@@ -53,3 +53,5 @@ lint/outputs/
 lint/tmp/
 *.hprof
 /.idea/deploymentTargetDropDown.xml
+/.idea/detekt.xml
+/machinet.conf

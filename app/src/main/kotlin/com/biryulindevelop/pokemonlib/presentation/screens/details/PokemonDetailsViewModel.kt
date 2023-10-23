@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.biryulindevelop.pokemonlib.domain.dto.pokemonDto.PokemonDto
 import com.biryulindevelop.pokemonlib.domain.repository.PokemonRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,15 +31,16 @@ class PokemonDetailsViewModel @Inject constructor(
             val result = runCatching {
                 repository.getPokemonInfo(pokemonName)
             }
-            result.onSuccess { response ->
-                delay(1000)
-                _pokemonInfo.value = response.getOrNull()
-                _isLoading.value = false
-            }
-            result.onFailure { response ->
-                _errorInfo.value = response.message
-                _isLoading.value = false
-            }
+            result.fold(
+                onSuccess = { success ->
+                    _pokemonInfo.value = success.getOrNull()
+                    _isLoading.value = false
+                },
+                onFailure = { failure ->
+                    _errorInfo.value = failure.message
+                    _isLoading.value = false
+                }
+            )
         }
     }
 }
