@@ -77,7 +77,7 @@ fun PokemonListScreen(
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_international_pok_mon_logo),
-                    contentDescription = "Pokemon Logo",
+                    contentDescription = EMPTY_STRING,
                     modifier = Modifier
                         .padding(top = 12.dp)
                 )
