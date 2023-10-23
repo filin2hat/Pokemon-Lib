@@ -76,9 +76,9 @@ fun PokemonDetailsScreen(
 ) {
     viewModel.loadPokemonInfo(pokemonName)
 
-    val pokemonInfo = viewModel.pokemonInfo.value
-    val errorInfo = viewModel.errorInfo.value
-    val isLoading = viewModel.isLoading.value
+    val pokemonInfo = remember { viewModel.pokemonInfo.value }
+    val errorInfo = remember { viewModel.errorInfo.value }
+    val isLoading = remember { viewModel.isLoading.value }
     Box(
         modifier = Modifier
             .fillMaxSize()
