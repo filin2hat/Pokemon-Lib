@@ -19,8 +19,8 @@ class PokemonDetailsViewModel @Inject constructor(
     private var _pokemonInfo: MutableState<PokemonDto?> = mutableStateOf(null)
     val pokemonInfo: MutableState<PokemonDto?> = _pokemonInfo
 
-    private var _errorInfo: MutableState<String> = mutableStateOf(EMPTY_STRING)
-    val errorInfo: MutableState<String> = _errorInfo
+    private var _errorInfo: MutableState<String?> = mutableStateOf(null)
+    val errorInfo: MutableState<String?> = _errorInfo
 
     private var _isLoading: MutableState<Boolean> = mutableStateOf(false)
     val isLoading: MutableState<Boolean> = _isLoading

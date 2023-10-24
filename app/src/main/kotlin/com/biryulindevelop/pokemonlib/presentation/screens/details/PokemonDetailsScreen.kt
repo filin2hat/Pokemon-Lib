@@ -194,7 +194,7 @@ fun PokemonDetailTopSection(
 fun PokemonDetailStateWrapper(
     pokemonInfo: PokemonDto,
     modifier: Modifier = Modifier,
-    errorInfo: String,
+    errorInfo: String?,
     isLoading: Boolean,
     loadingModifier: Modifier = Modifier
 ) {
@@ -209,15 +209,17 @@ fun PokemonDetailStateWrapper(
         pokemonInfo = pokemonInfo,
         modifier = modifier
     )
-    Text(
-        text = errorInfo,
-        color = Color.Red,
-        fontSize = 18.sp,
-        textAlign = TextAlign.Center,
-        fontFamily = PoketMonk,
-        modifier = modifier
-            .padding(horizontal = 16.dp)
-    )
+    errorInfo?.let {
+        Text(
+            text = it,
+            color = Color.Red,
+            fontSize = 18.sp,
+            textAlign = TextAlign.Center,
+            fontFamily = PoketMonk,
+            modifier = modifier
+                .padding(horizontal = 16.dp)
+        )
+    }
 }
 
 @Composable
