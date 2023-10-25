@@ -61,7 +61,7 @@ import com.biryulindevelop.pokemonlib.ui.theme.BackgroundColor
 import com.biryulindevelop.pokemonlib.ui.theme.PokemonSolid
 import com.biryulindevelop.pokemonlib.ui.theme.PoketMonk
 import com.biryulindevelop.pokemonlib.util.Constants.ANIMATE_DELAY_PER_ITEM
-import com.biryulindevelop.pokemonlib.util.Constants.ANIMATION_DEACCELERATION
+import com.biryulindevelop.pokemonlib.util.Constants.ANIMATION_DECELERATION
 import com.biryulindevelop.pokemonlib.util.Constants.ANIMATION_SPEED
 import com.biryulindevelop.pokemonlib.util.Constants.DIVISOR_1000
 import com.biryulindevelop.pokemonlib.util.Constants.EMPTY_STRING
@@ -75,22 +75,22 @@ import kotlin.math.round
 
 @Composable
 fun PokemonDetailsScreen(
-    dominantColor: Color,
-    pokemonName: String,
+    //dominantColor: Color,
     navController: NavController,
     topPadding: Dp = 20.dp,
     pokemonImageSize: Dp = 250.dp,
     viewModel: PokemonDetailsViewModel = hiltViewModel()
 ) {
-    viewModel.loadPokemonInfo(pokemonName)
 
     val pokemonInfo by rememberUpdatedState(viewModel.pokemonInfo)
     val errorInfo by rememberUpdatedState(viewModel.errorInfo)
     val isLoading by rememberUpdatedState(viewModel.isLoading)
+    val dominantColor by rememberUpdatedState(viewModel.dominantColor)
+
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(dominantColor)
+            .background(dominantColor.value ?: Color.White)
             .verticalScroll(rememberScrollState())
     )
     {
@@ -443,7 +443,7 @@ fun PokemonBaseStats(
                 statMaxValue = maxBaseStat,
                 statColor = parseStatColor(stat),
                 animDelay = i * animDelayPerItem,
-                animDuration = ANIMATION_SPEED + (i * ANIMATION_DEACCELERATION)
+                animDuration = ANIMATION_SPEED + (i * ANIMATION_DECELERATION)
             )
             Spacer(modifier = Modifier.height(8.dp))
         }
