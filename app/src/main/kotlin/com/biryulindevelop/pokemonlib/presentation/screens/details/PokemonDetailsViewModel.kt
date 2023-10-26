@@ -20,23 +20,20 @@ class PokemonDetailsViewModel @Inject constructor(
     private val repository: PokemonRepository
 ) : ViewModel() {
 
-    private var _pokemonInfo: MutableState<PokemonDto?> = mutableStateOf(null)
-    val pokemonInfo: MutableState<PokemonDto?> = _pokemonInfo
-
-    private var _dominantColor: MutableState<Color?> = mutableStateOf(null)
-    val dominantColor: MutableState<Color?> = _dominantColor
-
-    private var _errorInfo: MutableState<String?> = mutableStateOf(null)
-    val errorInfo: MutableState<String?> = _errorInfo
-
-    private var _isLoading: MutableState<Boolean> = mutableStateOf(false)
-    val isLoading: MutableState<Boolean> = _isLoading
+    var pokemonInfo: MutableState<PokemonDto?> = mutableStateOf(null)
+        private set
+    var dominantColor: MutableState<Color?> = mutableStateOf(null)
+        private set
+    var errorInfo: MutableState<String?> = mutableStateOf(null)
+        private set
+    var isLoading: MutableState<Boolean> = mutableStateOf(false)
+        private set
 
     init {
         viewModelScope.launch {
             val color = savedState.get<Int>(DOMINANT_COLOR_KEY)
             color?.let {
-                _dominantColor.value = Color(it)
+                dominantColor.value = Color(it)
             }
 
             val pokemonName = savedState.get<String>(POKEMON_NAME_KEY)?.lowercase()
@@ -49,18 +46,18 @@ class PokemonDetailsViewModel @Inject constructor(
 
     private fun loadPokemonInfo(pokemonName: String) {
         viewModelScope.launch {
-            _isLoading.value = true
+            isLoading.value = true
             val result = runCatching {
                 repository.getPokemonInfo(pokemonName)
             }
             result.fold(
                 onSuccess = { success ->
-                    _pokemonInfo.value = success.getOrNull()
-                    _isLoading.value = false
+                    pokemonInfo.value = success.getOrNull()
+                    isLoading.value = false
                 },
                 onFailure = { failure ->
-                    _errorInfo.value = failure.message.toString()
-                    _isLoading.value = false
+                    errorInfo.value = failure.message.toString()
+                    isLoading.value = false
                 }
             )
         }

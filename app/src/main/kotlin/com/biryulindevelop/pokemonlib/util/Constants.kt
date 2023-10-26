@@ -24,6 +24,6 @@ object Constants {
 
     const val SPLASH_SCREEN_KEY = "pokemon_splash_screen"
     const val POKEMON_LIST_KEY = "pokemon_list_screen"
-    const val POKEMON_DETAILS_KEY = "pokemon_detail_screen/{dominantColor}/{pokemonName}"
+    const val POKEMON_DETAILS_KEY = "pokemon_detail_screen"
 
 }

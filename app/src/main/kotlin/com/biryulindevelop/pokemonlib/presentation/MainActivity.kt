@@ -83,7 +83,7 @@ sealed class Screen(val route: String, val arguments: List<NamedNavArgument>) {
     data object PokemonSplash : Screen(SPLASH_SCREEN_KEY, emptyList())
     data object PokemonList : Screen(POKEMON_LIST_KEY, emptyList())
     data object PokemonDetails : Screen(
-        POKEMON_DETAILS_KEY,
+        "$POKEMON_DETAILS_KEY/{$DOMINANT_COLOR_KEY}/{$POKEMON_NAME_KEY}",
         listOf(
             navArgument(DOMINANT_COLOR_KEY) { type = NavType.IntType },
             navArgument(POKEMON_NAME_KEY) { type = NavType.StringType }
