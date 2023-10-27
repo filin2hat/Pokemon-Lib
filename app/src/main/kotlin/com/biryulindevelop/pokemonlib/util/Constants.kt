@@ -22,8 +22,8 @@ object Constants {
     const val POKEMON_NAME_KEY = "pokemonName"
     const val DOMINANT_COLOR_KEY = "dominantColor"
 
-    const val SPLASH_SCREEN_KEY = "pokemon_splash_screen"
-    const val POKEMON_LIST_KEY = "pokemon_list_screen"
-    const val POKEMON_DETAILS_KEY = "pokemon_detail_screen"
+    const val SPLASH_SCREEN_PATH = "pokemon_splash_screen"
+    const val POKEMON_LIST_PATH = "pokemon_list_screen"
+    const val POKEMON_DETAILS_PATH = "pokemon_detail_screen"
 
 }

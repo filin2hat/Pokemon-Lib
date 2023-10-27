@@ -20,11 +20,11 @@ import com.biryulindevelop.pokemonlib.presentation.screens.list.PokemonListScree
 import com.biryulindevelop.pokemonlib.presentation.screens.splash.PokemonSplashScreen
 import com.biryulindevelop.pokemonlib.ui.theme.PokemonLibTheme
 import com.biryulindevelop.pokemonlib.util.Constants.DOMINANT_COLOR_KEY
-import com.biryulindevelop.pokemonlib.util.Constants.POKEMON_DETAILS_KEY
-import com.biryulindevelop.pokemonlib.util.Constants.POKEMON_LIST_KEY
+import com.biryulindevelop.pokemonlib.util.Constants.POKEMON_DETAILS_PATH
+import com.biryulindevelop.pokemonlib.util.Constants.POKEMON_LIST_PATH
 import com.biryulindevelop.pokemonlib.util.Constants.POKEMON_NAME_KEY
 import com.biryulindevelop.pokemonlib.util.Constants.SCREEN_ANIMATION_DELAY
-import com.biryulindevelop.pokemonlib.util.Constants.SPLASH_SCREEN_KEY
+import com.biryulindevelop.pokemonlib.util.Constants.SPLASH_SCREEN_PATH
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -80,10 +80,10 @@ class MainActivity : ComponentActivity() {
 }
 
 sealed class Screen(val route: String, val arguments: List<NamedNavArgument>) {
-    data object PokemonSplash : Screen(SPLASH_SCREEN_KEY, emptyList())
-    data object PokemonList : Screen(POKEMON_LIST_KEY, emptyList())
+    data object PokemonSplash : Screen(SPLASH_SCREEN_PATH, emptyList())
+    data object PokemonList : Screen(POKEMON_LIST_PATH, emptyList())
     data object PokemonDetails : Screen(
-        "$POKEMON_DETAILS_KEY/{$DOMINANT_COLOR_KEY}/{$POKEMON_NAME_KEY}",
+        "$POKEMON_DETAILS_PATH/{$DOMINANT_COLOR_KEY}/{$POKEMON_NAME_KEY}",
         listOf(
             navArgument(DOMINANT_COLOR_KEY) { type = NavType.IntType },
             navArgument(POKEMON_NAME_KEY) { type = NavType.StringType }

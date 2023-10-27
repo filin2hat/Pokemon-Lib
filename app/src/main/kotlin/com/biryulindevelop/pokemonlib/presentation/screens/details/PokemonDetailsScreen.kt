@@ -75,7 +75,6 @@ import kotlin.math.round
 
 @Composable
 fun PokemonDetailsScreen(
-    //dominantColor: Color,
     navController: NavController,
     topPadding: Dp = 20.dp,
     pokemonImageSize: Dp = 250.dp,
