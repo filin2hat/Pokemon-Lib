@@ -7,8 +7,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.ui.graphics.Color
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
@@ -17,11 +15,16 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.biryulindevelop.pokemonlib.R
 import com.biryulindevelop.pokemonlib.presentation.screens.details.PokemonDetailsScreen
 import com.biryulindevelop.pokemonlib.presentation.screens.list.PokemonListScreen
 import com.biryulindevelop.pokemonlib.presentation.screens.splash.PokemonSplashScreen
 import com.biryulindevelop.pokemonlib.ui.theme.PokemonLibTheme
+import com.biryulindevelop.pokemonlib.util.Constants.DOMINANT_COLOR_KEY
+import com.biryulindevelop.pokemonlib.util.Constants.POKEMON_DETAILS_PATH
+import com.biryulindevelop.pokemonlib.util.Constants.POKEMON_LIST_PATH
+import com.biryulindevelop.pokemonlib.util.Constants.POKEMON_NAME_KEY
+import com.biryulindevelop.pokemonlib.util.Constants.SCREEN_ANIMATION_DELAY
+import com.biryulindevelop.pokemonlib.util.Constants.SPLASH_SCREEN_PATH
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,47 +39,31 @@ class MainActivity : ComponentActivity() {
                     enterTransition = {
                         slideInHorizontally(
                             initialOffsetX = { it },
-                            animationSpec = tween(400)
+                            animationSpec = tween(SCREEN_ANIMATION_DELAY)
                         )
                     },
                     exitTransition = {
                         slideOutHorizontally(
                             targetOffsetX = { -it },
-                            animationSpec = tween(400)
+                            animationSpec = tween(SCREEN_ANIMATION_DELAY)
                         )
                     },
                     popEnterTransition = {
                         slideInHorizontally(
                             initialOffsetX = { -it },
-                            animationSpec = tween(400)
+                            animationSpec = tween(SCREEN_ANIMATION_DELAY)
                         )
                     },
                     popExitTransition = {
                         slideOutHorizontally(
                             targetOffsetX = { it },
-                            animationSpec = tween(400)
+                            animationSpec = tween(SCREEN_ANIMATION_DELAY)
                         )
                     }
                 ) {
                     addScreen(Screen.PokemonSplash) { PokemonSplashScreen(navController = navController) }
-
                     addScreen(Screen.PokemonList) { PokemonListScreen(navController = navController) }
-
-                    addScreen(Screen.PokemonDetails) { backStackEntry ->
-                        val dominantColor = remember {
-                            val color = backStackEntry.arguments?.getInt("dominantColor")
-                            color?.let { Color(it) } ?: Color.White
-                        }
-                        val pokemonName = remember {
-                            backStackEntry.arguments?.getString("pokemonName")
-                                ?: getString(R.string.noname)
-                        }
-                        PokemonDetailsScreen(
-                            dominantColor = dominantColor,
-                            pokemonName = pokemonName.lowercase(),
-                            navController = navController
-                        )
-                    }
+                    addScreen(Screen.PokemonDetails) { PokemonDetailsScreen(navController = navController) }
                 }
             }
         }
@@ -93,13 +80,13 @@ class MainActivity : ComponentActivity() {
 }
 
 sealed class Screen(val route: String, val arguments: List<NamedNavArgument>) {
-    object PokemonSplash : Screen("pokemon_splash_screen", emptyList())
-    object PokemonList : Screen("pokemon_list_screen", emptyList())
-    object PokemonDetails : Screen(
-        "pokemon_detail_screen/{dominantColor}/{pokemonName}",
+    data object PokemonSplash : Screen(SPLASH_SCREEN_PATH, emptyList())
+    data object PokemonList : Screen(POKEMON_LIST_PATH, emptyList())
+    data object PokemonDetails : Screen(
+        "$POKEMON_DETAILS_PATH/{$DOMINANT_COLOR_KEY}/{$POKEMON_NAME_KEY}",
         listOf(
-            navArgument("dominantColor") { type = NavType.IntType },
-            navArgument("pokemonName") { type = NavType.StringType }
+            navArgument(DOMINANT_COLOR_KEY) { type = NavType.IntType },
+            navArgument(POKEMON_NAME_KEY) { type = NavType.StringType }
         )
     )
 }

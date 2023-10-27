@@ -2,9 +2,10 @@ package com.biryulindevelop.pokemonlib.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
+val BackgroundColor = Color(0xFF505050)
+
 val LightBlue = Color(0xFFBAC7FF)
 val DarkBlue = Color(0xFF4B5270)
-val lightGrey = Color(0xFFAAAAAA)
 
 val HPColor = Color(0xB2F5FF00)
 val AtkColor = Color(1f, 0f, 0f, 0.66f)

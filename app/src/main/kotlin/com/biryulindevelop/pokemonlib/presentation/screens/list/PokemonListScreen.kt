@@ -29,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -55,6 +56,10 @@ import com.biryulindevelop.pokemonlib.R
 import com.biryulindevelop.pokemonlib.domain.model.PokemonListEntry
 import com.biryulindevelop.pokemonlib.ui.theme.PokemonHollow
 import com.biryulindevelop.pokemonlib.ui.theme.PoketMonk
+import com.biryulindevelop.pokemonlib.util.Constants.EMPTY_STRING
+import com.biryulindevelop.pokemonlib.util.Constants.LIST_WIDTH
+import com.biryulindevelop.pokemonlib.util.Constants.SEARCH_BAR_MAX_LINES
+import com.biryulindevelop.pokemonlib.util.calcDominantColor
 
 @Composable
 fun PokemonListScreen(
@@ -74,7 +79,7 @@ fun PokemonListScreen(
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_international_pok_mon_logo),
-                    contentDescription = "Pokemon Logo",
+                    contentDescription = EMPTY_STRING,
                     modifier = Modifier
                         .padding(top = 12.dp)
                 )
@@ -99,7 +104,10 @@ fun PokemonListScreen(
                     viewModel.searchPokemon(it)
                 }
             )
-            PokemonList(navController = navController)
+            PokemonList(
+                navController = navController,
+                viewModel = viewModel
+            )
         }
     }
 }
@@ -107,14 +115,14 @@ fun PokemonListScreen(
 @Composable
 fun SearchBar(
     modifier: Modifier = Modifier,
-    hint: String = "",
+    hint: String = EMPTY_STRING,
     onSearch: (String) -> Unit
 ) {
     var text by remember {
-        mutableStateOf("")
+        mutableStateOf(EMPTY_STRING)
     }
     var isHintDisplayed by remember {
-        mutableStateOf(hint != "")
+        mutableStateOf(hint != EMPTY_STRING)
     }
     Box(modifier = modifier) {
         BasicTextField(
@@ -123,7 +131,7 @@ fun SearchBar(
                 text = it
                 onSearch(it)
             },
-            maxLines = 1,
+            maxLines = SEARCH_BAR_MAX_LINES,
             singleLine = true,
             textStyle = TextStyle(color = Color.Black),
             modifier = Modifier
@@ -148,25 +156,23 @@ fun SearchBar(
 @Composable
 fun PokemonList(
     navController: NavController,
-    viewModel: PokemonListViewModel = hiltViewModel(),
+    viewModel: PokemonListViewModel
 ) {
-    val pokemonList by remember { viewModel.pokemonList }
-    val endReached by remember { viewModel.endReached }
-    val loadError by remember { viewModel.loadError }
-    val isLoading by remember { viewModel.isLoading }
-    val isSearching by remember { viewModel.isSearching }
-
+    val pokemonList by rememberUpdatedState(viewModel.pokemonList)
+    val isSearching by rememberUpdatedState(viewModel.isSearching)
+    val loadError by rememberUpdatedState(viewModel.loadError)
+    val isLoading: Boolean by rememberUpdatedState(viewModel.isLoading)
 
     LazyColumn(
         contentPadding = PaddingValues(10.dp)
     ) {
-        val itemCount = if (pokemonList.size % 2 == 0) {
-            pokemonList.size / 2
+        val itemCount = if (pokemonList.size % LIST_WIDTH == 0) {
+            pokemonList.size / LIST_WIDTH
         } else {
-            pokemonList.size / 2 + 1
+            pokemonList.size / LIST_WIDTH + 1
         }
         items(itemCount) {
-            if (it >= itemCount - 1 && !endReached && !isLoading && !isSearching) {
+            if (it >= itemCount - 1 && !isLoading && !isSearching) {
                 viewModel.loadPokemonPaged()
             }
             PokemonListRow(rowIndex = it, entries = pokemonList, navController = navController)
@@ -191,8 +197,7 @@ fun PokemonList(
 fun PokemonLibEntry(
     entry: PokemonListEntry,
     navController: NavController,
-    modifier: Modifier = Modifier,
-    viewModel: PokemonListViewModel = hiltViewModel()
+    modifier: Modifier = Modifier
 ) {
     val defaultDominantColor = MaterialTheme.colorScheme.surface
     var dominantColor by remember {
@@ -227,7 +232,7 @@ fun PokemonLibEntry(
                     .apply(block = fun ImageRequest.Builder.() {
                         listener(
                             onSuccess = { _, result ->
-                                viewModel.calcDominantColor(result.drawable) { color ->
+                                calcDominantColor(result.drawable) { color ->
                                     dominantColor = color
                                 }
                             }
@@ -268,14 +273,14 @@ fun PokemonListRow(
     Column {
         Row {
             PokemonLibEntry(
-                entry = entries[rowIndex * 2],
+                entry = entries[rowIndex * LIST_WIDTH],
                 navController = navController,
                 modifier = Modifier.weight(1f)
             )
             Spacer(modifier = Modifier.width(10.dp))
-            if (entries.size >= rowIndex * 2 + 2) {
+            if (entries.size >= rowIndex * LIST_WIDTH + LIST_WIDTH) {
                 PokemonLibEntry(
-                    entry = entries[rowIndex * 2 + 1],
+                    entry = entries[rowIndex * LIST_WIDTH + 1],
                     navController = navController,
                     modifier = Modifier.weight(1f)
                 )

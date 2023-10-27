@@ -33,4 +33,6 @@
     <string name="spatk">SpAtk</string>
     <string name="spdef">SpDef</string>
     <string name="spd">Spd</string>
+    <string name="empty" translatable="false" />
+    <string name="kg">kg</string>
 </resources>
