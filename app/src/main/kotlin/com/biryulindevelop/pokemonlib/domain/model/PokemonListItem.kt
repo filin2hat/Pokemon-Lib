@@ -1,6 +1,6 @@
 package com.biryulindevelop.pokemonlib.domain.model
 
-data class PokemonListEntry(
+data class PokemonListItem(
     val pokemonName: String,
     val imageUrl: String,
     val id: Int

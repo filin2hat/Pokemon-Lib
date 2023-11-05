@@ -53,7 +53,7 @@ import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.biryulindevelop.pokemonlib.R
-import com.biryulindevelop.pokemonlib.domain.model.PokemonListEntry
+import com.biryulindevelop.pokemonlib.domain.model.PokemonListItem
 import com.biryulindevelop.pokemonlib.ui.theme.PokemonHollow
 import com.biryulindevelop.pokemonlib.ui.theme.PoketMonk
 import com.biryulindevelop.pokemonlib.util.Constants.EMPTY_STRING
@@ -195,7 +195,7 @@ fun PokemonList(
 
 @Composable
 fun PokemonLibEntry(
-    entry: PokemonListEntry,
+    entry: PokemonListItem,
     navController: NavController,
     modifier: Modifier = Modifier
 ) {
@@ -267,7 +267,7 @@ fun PokemonLibEntry(
 @Composable
 fun PokemonListRow(
     rowIndex: Int,
-    entries: List<PokemonListEntry>,
+    entries: List<PokemonListItem>,
     navController: NavController
 ) {
     Column {
