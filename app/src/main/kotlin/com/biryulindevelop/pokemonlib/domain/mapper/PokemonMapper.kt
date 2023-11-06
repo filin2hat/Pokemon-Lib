@@ -9,29 +9,27 @@ import com.biryulindevelop.pokemonlib.util.getImageUrlFromNumber
 import com.biryulindevelop.pokemonlib.util.getNumberFromUrl
 
 object PokemonMapper {
-    private fun mapPokemonDtoToPokemonItem(dto: PokemonDto): PokemonItem {
+    fun PokemonDto.toItem(): PokemonItem {
         return PokemonItem(
-            id = dto.id,
-            name = dto.name,
-            imageUrl = dto.sprites.other.officialArtwork.frontDefault,
-            type = dto.types.map { it.type.name },
-            height = dto.height,
-            weight = dto.weight,
-            stats = dto.stats.map { it.stat.name }
+            id = id,
+            name = name,
+            imageUrl = sprites.other.officialArtwork.frontDefault,
+            type = types.map { it.type.name },
+            height = height,
+            weight = weight,
+            stats = stats.map { it.stat.name }
         )
     }
 
-    private fun mapPokemonListDtoToPokemonItem(dto: ResultDto): PokemonListItem {
-        val id = dto.url.getNumberFromUrl()
-        val imageUrl = getImageUrlFromNumber(id)
-        return PokemonListItem(
-            pokemonName = dto.name.replaceFirstChar { it.uppercase() },
-            imageUrl = imageUrl,
-            id = id
-        )
+    fun PokemonListDto.toItemList(): List<PokemonListItem> {
+        return results.map { dto ->
+            val id = dto.url.getNumberFromUrl()
+            val imageUrl = getImageUrlFromNumber(id)
+            PokemonListItem(
+                pokemonName = dto.name.replaceFirstChar { it.uppercase() },
+                imageUrl = imageUrl,
+                id = id
+            )
+        }
     }
-
-    fun PokemonDto.toItem() = mapPokemonDtoToPokemonItem(this)
-
-    fun PokemonListDto.toItemList() = results.map { mapPokemonListDtoToPokemonItem(it) }
 }
