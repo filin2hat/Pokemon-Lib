@@ -6,8 +6,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.biryulindevelop.pokemonlib.domain.dto.pokemonDto.PokemonDto
-import com.biryulindevelop.pokemonlib.domain.repository.PokemonRepository
+import com.biryulindevelop.pokemonlib.domain.models.PokemonItem
+import com.biryulindevelop.pokemonlib.domain.usecase.GetPokemonItemUseCase
 import com.biryulindevelop.pokemonlib.util.Constants.DOMINANT_COLOR_KEY
 import com.biryulindevelop.pokemonlib.util.Constants.POKEMON_NAME_KEY
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,10 +17,10 @@ import javax.inject.Inject
 @HiltViewModel
 class PokemonDetailsViewModel @Inject constructor(
     private val savedState: SavedStateHandle,
-    private val repository: PokemonRepository
+    private val getPokemonItemUseCase: GetPokemonItemUseCase
 ) : ViewModel() {
 
-    var pokemonInfo: MutableState<PokemonDto?> = mutableStateOf(null)
+    var pokemonItem: MutableState<PokemonItem?> = mutableStateOf(null)
         private set
     var dominantColor: MutableState<Color?> = mutableStateOf(null)
         private set
@@ -48,15 +48,15 @@ class PokemonDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             isLoading.value = true
             val result = runCatching {
-                repository.getPokemonInfo(pokemonName)
+                getPokemonItemUseCase.execute(pokemonName)
             }
             result.fold(
-                onSuccess = { success ->
-                    pokemonInfo.value = success.getOrNull()
+                onSuccess = { item ->
+                    pokemonItem.value = item
                     isLoading.value = false
                 },
-                onFailure = { failure ->
-                    errorInfo.value = failure.message.toString()
+                onFailure = { item ->
+                    errorInfo.value = item.message.toString()
                     isLoading.value = false
                 }
             )

@@ -53,7 +53,7 @@ import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.biryulindevelop.pokemonlib.R
-import com.biryulindevelop.pokemonlib.domain.model.PokemonListItem
+import com.biryulindevelop.pokemonlib.domain.models.PokemonListItem
 import com.biryulindevelop.pokemonlib.ui.theme.PokemonHollow
 import com.biryulindevelop.pokemonlib.ui.theme.PoketMonk
 import com.biryulindevelop.pokemonlib.util.Constants.EMPTY_STRING

@@ -55,8 +55,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.biryulindevelop.pokemonlib.R
-import com.biryulindevelop.pokemonlib.domain.dto.pokemonDto.PokemonDto
-import com.biryulindevelop.pokemonlib.domain.dto.pokemonDto.TypeDto
+import com.biryulindevelop.pokemonlib.domain.models.PokemonItem
+import com.biryulindevelop.pokemonlib.domain.models.TypeItem
 import com.biryulindevelop.pokemonlib.ui.theme.BackgroundColor
 import com.biryulindevelop.pokemonlib.ui.theme.PokemonSolid
 import com.biryulindevelop.pokemonlib.ui.theme.PoketMonk
@@ -81,7 +81,7 @@ fun PokemonDetailsScreen(
     viewModel: PokemonDetailsViewModel = hiltViewModel()
 ) {
 
-    val pokemonInfo by rememberUpdatedState(viewModel.pokemonInfo)
+    val pokemonItem by rememberUpdatedState(viewModel.pokemonItem)
     val errorInfo by rememberUpdatedState(viewModel.errorInfo)
     val isLoading by rememberUpdatedState(viewModel.isLoading)
     val dominantColor by rememberUpdatedState(viewModel.dominantColor)
@@ -93,7 +93,7 @@ fun PokemonDetailsScreen(
             .verticalScroll(rememberScrollState())
     )
     {
-        pokemonInfo.value?.let { item ->
+        pokemonItem.value?.let { item ->
 
             PokemonDetailTopSection(
                 pokemonInfo = item,
@@ -133,10 +133,10 @@ fun PokemonDetailsScreen(
                 .offset(y = 60.dp),
             contentAlignment = Alignment.BottomCenter
         ) {
-            pokemonInfo.value?.sprites?.other?.officialArtwork?.frontDefault?.let {
+            pokemonItem.value?.imageUrl?.let {
                 AsyncImage(
                     model = it,
-                    contentDescription = pokemonInfo.value?.name,
+                    contentDescription = pokemonItem.value?.name,
                     contentScale = ContentScale.FillHeight
                 )
             }
@@ -146,7 +146,7 @@ fun PokemonDetailsScreen(
 
 @Composable
 fun PokemonDetailTopSection(
-    pokemonInfo: PokemonDto,
+    pokemonInfo: PokemonItem,
     navController: NavController
 ) {
     Row(
@@ -191,7 +191,7 @@ fun PokemonDetailTopSection(
 
 @Composable
 fun PokemonDetailStateWrapper(
-    pokemonInfo: PokemonDto,
+    pokemonInfo: PokemonItem,
     modifier: Modifier = Modifier,
     errorInfo: String?,
     isLoading: Boolean,
@@ -205,7 +205,7 @@ fun PokemonDetailStateWrapper(
     }
 
     PokemonDetailSelection(
-        pokemonInfo = pokemonInfo,
+        pokemonItem = pokemonInfo,
         modifier = modifier
     )
     errorInfo?.let {
@@ -223,7 +223,7 @@ fun PokemonDetailStateWrapper(
 
 @Composable
 fun PokemonDetailSelection(
-    pokemonInfo: PokemonDto,
+    pokemonItem: PokemonItem,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -232,7 +232,7 @@ fun PokemonDetailSelection(
             .padding(top = 100.dp)
     ) {
         Text(
-            text = pokemonInfo.name.replaceFirstChar {
+            text = pokemonItem.name.replaceFirstChar {
                 if (it.isLowerCase()) it.titlecase(Locale.ROOT)
                 else it.toString()
             },
@@ -241,20 +241,20 @@ fun PokemonDetailSelection(
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.onSurface
         )
-        PokemonTypeSection(types = pokemonInfo.types)
+        PokemonTypeSection(types = pokemonItem.types)
 
         PokemonDetailDataSection(
-            pokemonWeight = pokemonInfo.weight,
-            pokemonHeight = pokemonInfo.height
+            pokemonWeight = pokemonItem.weight,
+            pokemonHeight = pokemonItem.height
         )
-        PokemonBaseStats(pokemonInfo = pokemonInfo)
+        PokemonBaseStats(pokemonItem = pokemonItem)
 
         Spacer(modifier = Modifier.height(15.dp))
     }
 }
 
 @Composable
-fun PokemonTypeSection(types: List<TypeDto>) {
+fun PokemonTypeSection(types: List<TypeItem>) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -415,11 +415,11 @@ fun PokemonStat(
 
 @Composable
 fun PokemonBaseStats(
-    pokemonInfo: PokemonDto,
+    pokemonItem: PokemonItem,
     animDelayPerItem: Int = ANIMATE_DELAY_PER_ITEM
 ) {
     val maxBaseStat = remember {
-        pokemonInfo.stats.maxOf { it.baseStat }
+        pokemonItem.stats.maxOf { it.baseStat }
     }
     Spacer(modifier = Modifier.height(8.dp))
     Column(
@@ -434,8 +434,8 @@ fun PokemonBaseStats(
                 .padding(bottom = 8.dp)
         )
         Spacer(modifier = Modifier.height(4.dp))
-        for (i in pokemonInfo.stats.indices) {
-            val stat = pokemonInfo.stats[i]
+        for (i in pokemonItem.stats.indices) {
+            val stat = pokemonItem.stats[i]
             PokemonStat(
                 statName = parseStatToAbbr(stat = stat, context = LocalContext.current),
                 statValue = stat.baseStat,
