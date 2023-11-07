@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.biryulindevelop.pokemonlib.domain.model.PokemonListEntry
+import com.biryulindevelop.pokemonlib.domain.model.PokemonListItem
 import com.biryulindevelop.pokemonlib.domain.repository.PokemonRepository
 import com.biryulindevelop.pokemonlib.util.Constants.EMPTY_STRING
 import com.biryulindevelop.pokemonlib.util.Constants.PAGE_SIZE
@@ -22,7 +22,7 @@ class PokemonListViewModel @Inject constructor(
 
     private var currentPage = 0
 
-    var pokemonList by mutableStateOf<List<PokemonListEntry>>(emptyList())
+    var pokemonList by mutableStateOf<List<PokemonListItem>>(emptyList())
         private set
     var loadError by mutableStateOf(EMPTY_STRING)
         private set
@@ -31,7 +31,7 @@ class PokemonListViewModel @Inject constructor(
     var isSearching by mutableStateOf(false)
         private set
 
-    private var cachedPokemonList = listOf<PokemonListEntry>()
+    private var cachedPokemonList = listOf<PokemonListItem>()
 
     private var isSearchStarting = true
 
@@ -76,12 +76,12 @@ class PokemonListViewModel @Inject constructor(
 
             result.fold(
                 onSuccess = { response ->
-                    val pokemonEntries: List<PokemonListEntry?> =
+                    val pokemonEntries: List<PokemonListItem?> =
                         response.getOrNull()?.results?.map { entry ->
                             try {
                                 val number = entry.url.getNumberFromUrl()
                                 val imageUrl = getImageUrlFromNumber(number)
-                                PokemonListEntry(
+                                PokemonListItem(
                                     pokemonName = entry.name.replaceFirstChar { it.uppercase() },
                                     imageUrl = imageUrl,
                                     id = number
