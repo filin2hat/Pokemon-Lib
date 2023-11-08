@@ -96,12 +96,12 @@ fun PokemonDetailsScreen(
         pokemonItem.value?.let { item ->
 
             PokemonDetailTopSection(
-                pokemonInfo = item,
+                pokemonItem = item,
                 navController = navController
             )
 
             PokemonDetailStateWrapper(
-                pokemonInfo = item,
+                pokemonItem = item,
                 errorInfo = errorInfo.value,
                 isLoading = isLoading.value,
                 modifier = Modifier
@@ -146,7 +146,7 @@ fun PokemonDetailsScreen(
 
 @Composable
 fun PokemonDetailTopSection(
-    pokemonInfo: PokemonItem,
+    pokemonItem: PokemonItem,
     navController: NavController
 ) {
     Row(
@@ -181,7 +181,7 @@ fun PokemonDetailTopSection(
                 color = Color.White
             )
             Text(
-                text = pokemonInfo.id.toString(),
+                text = pokemonItem.id.toString(),
                 fontSize = 48.sp,
                 color = Color.White
             )
@@ -191,7 +191,7 @@ fun PokemonDetailTopSection(
 
 @Composable
 fun PokemonDetailStateWrapper(
-    pokemonInfo: PokemonItem,
+    pokemonItem: PokemonItem,
     modifier: Modifier = Modifier,
     errorInfo: String?,
     isLoading: Boolean,
@@ -205,7 +205,7 @@ fun PokemonDetailStateWrapper(
     }
 
     PokemonDetailSelection(
-        pokemonItem = pokemonInfo,
+        pokemonItem = pokemonItem,
         modifier = modifier
     )
     errorInfo?.let {
