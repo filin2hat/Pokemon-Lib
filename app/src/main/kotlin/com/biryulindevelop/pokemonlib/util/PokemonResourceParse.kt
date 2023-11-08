@@ -3,10 +3,10 @@ package com.biryulindevelop.pokemonlib.util
 import android.content.Context
 import androidx.compose.ui.graphics.Color
 import com.biryulindevelop.pokemonlib.R
-import com.biryulindevelop.pokemonlib.domain.dto.pokemonDto.StatDto
-import com.biryulindevelop.pokemonlib.domain.dto.pokemonDto.TypeDto
 import com.biryulindevelop.pokemonlib.domain.enums.PokemonStats
 import com.biryulindevelop.pokemonlib.domain.enums.PokemonType
+import com.biryulindevelop.pokemonlib.domain.models.StatsItem
+import com.biryulindevelop.pokemonlib.domain.models.TypeItem
 import com.biryulindevelop.pokemonlib.ui.theme.AtkColor
 import com.biryulindevelop.pokemonlib.ui.theme.DefColor
 import com.biryulindevelop.pokemonlib.ui.theme.HPColor
@@ -34,8 +34,8 @@ import com.biryulindevelop.pokemonlib.ui.theme.TypeSteel
 import com.biryulindevelop.pokemonlib.ui.theme.TypeWater
 import com.biryulindevelop.pokemonlib.util.Constants.EMPTY_STRING
 
-fun parseTypeToColor(type: TypeDto): Color {
-    return when (type.type.name.lowercase()) {
+fun parseTypeToColor(type: TypeItem): Color {
+    return when (type.name.lowercase()) {
         PokemonType.NORMAL.name.lowercase() -> TypeNormal
         PokemonType.FIRE.name.lowercase() -> TypeFire
         PokemonType.WATER.name.lowercase() -> TypeWater
@@ -59,8 +59,8 @@ fun parseTypeToColor(type: TypeDto): Color {
     }
 }
 
-fun changeTypeName(type: TypeDto, context: Context): String {
-    return when (type.type.name.lowercase()) {
+fun changeTypeName(type: TypeItem, context: Context): String {
+    return when (type.name.lowercase()) {
         PokemonType.NORMAL.name.lowercase() -> context.getString(R.string.normal)
         PokemonType.FIRE.name.lowercase() -> context.getString(R.string.fire)
         PokemonType.WATER.name.lowercase() -> context.getString(R.string.water)
@@ -84,7 +84,7 @@ fun changeTypeName(type: TypeDto, context: Context): String {
     }
 }
 
-fun parseStatColor(stat: StatDto): Color {
+fun parseStatColor(stat: StatsItem): Color {
     return when (stat.stat.name.lowercase()) {
         PokemonStats.HP.name.lowercase() -> HPColor
         PokemonStats.ATTACK.name.lowercase() -> AtkColor
@@ -96,7 +96,7 @@ fun parseStatColor(stat: StatDto): Color {
     }
 }
 
-fun parseStatToAbbr(stat: StatDto, context: Context): String {
+fun parseStatToAbbr(stat: StatsItem, context: Context): String {
     return when (stat.stat.name.lowercase()) {
         PokemonStats.HP.name.lowercase() -> context.getString(R.string.hp)
         PokemonStats.ATTACK.name.lowercase() -> context.getString(R.string.atk)
