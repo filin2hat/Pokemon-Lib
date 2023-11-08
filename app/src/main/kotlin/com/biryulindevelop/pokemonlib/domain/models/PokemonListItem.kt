@@ -1,4 +1,4 @@
-package com.biryulindevelop.pokemonlib.domain.model
+package com.biryulindevelop.pokemonlib.domain.models
 
 data class PokemonListItem(
     val pokemonName: String,

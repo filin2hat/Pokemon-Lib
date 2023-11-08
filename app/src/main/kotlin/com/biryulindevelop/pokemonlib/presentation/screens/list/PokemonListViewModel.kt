@@ -5,19 +5,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.biryulindevelop.pokemonlib.domain.model.PokemonListItem
-import com.biryulindevelop.pokemonlib.domain.repository.PokemonRepository
+import com.biryulindevelop.pokemonlib.domain.models.PokemonListItem
+import com.biryulindevelop.pokemonlib.domain.usecase.GetPokemonListItemUseCase
 import com.biryulindevelop.pokemonlib.util.Constants.EMPTY_STRING
 import com.biryulindevelop.pokemonlib.util.Constants.PAGE_SIZE
-import com.biryulindevelop.pokemonlib.util.getImageUrlFromNumber
-import com.biryulindevelop.pokemonlib.util.getNumberFromUrl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class PokemonListViewModel @Inject constructor(
-    private val repository: PokemonRepository
+    private val getPokemonListItemUseCase: GetPokemonListItemUseCase
 ) : ViewModel() {
 
     private var currentPage = 0
@@ -71,32 +69,18 @@ class PokemonListViewModel @Inject constructor(
         viewModelScope.launch {
             isLoading = true
             val result = runCatching {
-                repository.getPokemonList(PAGE_SIZE, currentPage * PAGE_SIZE)
+                getPokemonListItemUseCase.execute(
+                    limit = PAGE_SIZE,
+                    offset = currentPage * PAGE_SIZE
+                )
             }
 
             result.fold(
-                onSuccess = { response ->
-                    val pokemonEntries: List<PokemonListItem?> =
-                        response.getOrNull()?.results?.map { entry ->
-                            try {
-                                val number = entry.url.getNumberFromUrl()
-                                val imageUrl = getImageUrlFromNumber(number)
-                                PokemonListItem(
-                                    pokemonName = entry.name.replaceFirstChar { it.uppercase() },
-                                    imageUrl = imageUrl,
-                                    id = number
-                                )
-                            } catch (e: Exception) {
-                                null
-                            }
-                        } ?: emptyList()
-
-                    pokemonEntries.filterNotNull().let { loadedList ->
-                        currentPage++
-                        loadError = EMPTY_STRING
-                        isLoading = false
-                        pokemonList += loadedList
-                    }
+                onSuccess = { loadedList ->
+                    currentPage++
+                    loadError = EMPTY_STRING
+                    isLoading = false
+                    pokemonList += loadedList
                 },
                 onFailure = { error ->
                     loadError = error.message.orEmpty()
